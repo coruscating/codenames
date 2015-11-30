@@ -1,0 +1,147 @@
+<head>
+  <meta charset="utf-8">
+  <title>Codenames</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link href='http://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  <link href="css/font-awesome.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/normalize.css" type="text/css">
+  <link rel="stylesheet" href="css/skeleton.css" type="text/css">
+  <link rel="stylesheet" href="css/styles.css" type="text/css">
+</head>
+
+<body></body>
+
+<template name="main">
+  <div class="container lang-{{ language }}">
+    <div class="main-content">
+      {{> Template.dynamic template=whichView}}
+
+      
+
+      {{> footer }}
+    </div>
+  </div>
+</template>
+
+<template name="startMenu">
+  <div class="main-menu">
+    <h4>Codenames</h4>
+
+    <hr>
+
+  <form id="join-game">  
+    <div>
+      
+      <input type=radio id="red" name="playerType" value="red"> <label for="red"><span class=red>Red</span> Spymaster</label>
+
+      <br><input type=radio id="blue" name="playerType" value="blue"> <label for="blue"><span class=blue>Blue</span> Spymaster</label>
+      <br><input type=radio id="neutral" name="playerType" value="neutral" checked="checked"> <label for="neutral">Field Operative</label>
+      <br>
+
+
+
+      <div class="button-container">
+        <input type="submit" value='{{_ "ui.join" }}'>
+        
+      </div>
+    </div>
+  </form>
+</div>
+
+
+</template>
+
+
+
+
+<template name="lobby">
+<table width=100%><tr><td>
+<button class="down"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.lengthInMinutes }} minutes&nbsp;&nbsp;<button class="up"><div style='font-size:1.5em;'>+</div></button></td>
+  <td> <input type=checkbox id=location2 name=location2><label for=location2> Use additional words</label></td> <td><input type="button" value="Refresh" class="btn-refresh-list"></td></tr></table>
+
+   
+          <h4>Agent Names</h4>
+  <ul class="location-list lobby">
+    {{#each game.locationlist }}
+
+      <li>
+        <div class="location-name">{{_ displayname }}</div>
+        </li>
+    {{/each}}
+  </ul>
+
+
+
+  <div class="button-container">
+    <button class="btn-start">Start Game</button>
+    <button class="btn-leave">Leave Game</button>
+  </div>
+</template>
+
+<template name="gameView">
+<div style="width:20%;float: left;"> <center><h5><a href="#" class="game-countdown {{#if gameFinished }}finished{{/if}} {{#if game.paused }}paused{{/if}}">{{{ timeRemaining }}}</a></h5></center>
+{{#if isBlue }}
+        <h5><span class=blue>Blue</span> Spymaster</h5>
+      {{/if}}
+
+      {{#if isRed }}
+        <h5><span class=red>Red</span> Spymaster</h5>
+      {{/if}}
+
+
+
+
+<h5>{{ firstplayer }}</h5>
+<h5><span class=blue>Blue: {{ bluescore }}</span><br>
+<span class=red>Red: {{ redscore }}</span></h5>
+</div>
+  <div class="status-container">
+ 
+
+
+
+  <div class="u-cf"></div>
+
+{{#if isNeutral}}
+
+<ul class="location-list">
+    {{#each game.locationlist }}
+      <li class="location-{{_ reveal }}" id="location-{{_ name }}">
+        <div class="location-name">{{_ displayname }}</div>
+      </li>
+    {{/each}}
+  </ul>
+
+  {{else}}
+  <ul class="location-list">
+    {{#each game.locationlist }}
+<li class="location-{{_ type }} spymaster-{{_ reveal }}">
+<div class="location-name">{{_ displayname }}</div>
+</li>
+    {{/each}}
+  </ul>
+
+  {{/if}}
+  
+
+  <div class="button-container">
+    <button class="btn-end">{{_ "ui.end game" }}</button>
+  
+  </div>
+  </div>
+</template>
+
+
+
+
+
+<template name="footer">
+
+
+  <div class="footer" style="clear:both;">
+    <br>
+    <a href="/rules.pdf" target="_blank">Rules</a>
+  </div>
+</template>

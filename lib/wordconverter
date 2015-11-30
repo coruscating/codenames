@@ -1,0 +1,14 @@
+filein="wordlist2"
+fileout="locations2.js"
+
+sort -u wordlist2 -o wordlist2
+
+echo "locations = [" > $fileout
+
+while read -r line
+do
+    name=$line
+    echo "{name: '$line'}," >> $fileout
+done < $filein
+
+echo "];" >> $fileout
