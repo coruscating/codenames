@@ -26,18 +26,18 @@
 </template>
 
 <template name="startMenu">
-  <div class="main-menu">
-    <h4>Codenames</h4>
+  <div class="main-menu" style="padding: 15% 0 5% 0;">
+    <h3>Codenames</h3>
 
     <hr>
 
   <form id="join-game">  
     <div>
       
-      <input type=radio id="red" name="playerType" value="red"> <label for="red"><span class=red>Red</span> Spymaster</label>
+      <input type=radio id="red" name="playerType" value="red"> <label for="red" class="labels"><span class=red>Red</span> Spymaster</label>
 
-      <br><input type=radio id="blue" name="playerType" value="blue"> <label for="blue"><span class=blue>Blue</span> Spymaster</label>
-      <br><input type=radio id="neutral" name="playerType" value="neutral" checked="checked"> <label for="neutral">Field Operative</label>
+      <br><input type=radio id="blue" name="playerType" value="blue"> <label for="blue" class="labels"><span class=blue>Blue</span> Spymaster</label>
+      <br><input type=radio id="neutral" name="playerType" value="neutral" checked="checked"> <label for="neutral" class="labels">Field Operative</label>
       <br>
 
 
@@ -57,12 +57,10 @@
 
 
 <template name="lobby">
-<table width=100%><tr><td>
-<button class="down"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.lengthInMinutes }} minutes&nbsp;&nbsp;<button class="up"><div style='font-size:1.5em;'>+</div></button></td>
-  <td> <input type=checkbox id=location2 name=location2><label for=location2> Use additional words</label></td> <td><input type="button" value="Refresh" class="btn-refresh-list"></td></tr></table>
-
-   
-          <h4>Agent Names</h4>
+<table width=100%><tr><td><input type="button" value="New Game" class="btn-refresh-list"></td><td>
+<button class="down"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.lengthInMinutes }} minutes&nbsp;&nbsp;<button class="up"><div style='font-size:1.5em;'>+</div></button></td><td><button class="down2"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.totalnum }} codenames&nbsp;&nbsp;<button class="up2"><div style='font-size:1.5em;'>+</div></button></td>
+  <td> <input type=checkbox id=location2 name=location2><label for=location2> Additional words</label></td> </tr></table>
+{{test}}
   <ul class="location-list lobby">
     {{#each game.locationlist }}
 
@@ -76,12 +74,13 @@
 
   <div class="button-container">
     <button class="btn-start">Start Game</button>
-    <button class="btn-leave">Leave Game</button>
+    <button class="btn-leave">Back</button>
   </div>
 </template>
 
 <template name="gameView">
 <div style="width:20%;float: left;"> <center><h5><a href="#" class="game-countdown {{#if gameFinished }}finished{{/if}} {{#if game.paused }}paused{{/if}}">{{{ timeRemaining }}}</a></h5></center>
+ <!-- <button class="btn-toggle-status">{{_ "ui.show hide" }}</button>-->
 {{#if isBlue }}
         <h5><span class=blue>Blue</span> Spymaster</h5>
       {{/if}}
@@ -93,9 +92,9 @@
 
 
 
-<h5>{{ firstplayer }}</h5>
-<h5><span class=blue>Blue: {{ bluescore }}</span><br>
-<span class=red>Red: {{ redscore }}</span></h5>
+<h5>{{ statustext }}</h5>
+<h5><span class=blue>Blue: {{ bluescore }} out of {{ bluetotal }}</span><br>
+<span class=red>Red: {{ redscore }} out of {{ redtotal }}</span></h5>
 </div>
   <div class="status-container">
  
@@ -127,7 +126,7 @@
   
 
   <div class="button-container">
-    <button class="btn-end">{{_ "ui.end game" }}</button>
+    <button class="btn-end">Back</button>
   
   </div>
   </div>
@@ -142,6 +141,6 @@
 
   <div class="footer" style="clear:both;">
     <br>
-    <a href="/rules.pdf" target="_blank">Rules</a>
+    <a href="/rules.pdf" target="_blank">Rules</a> &nbsp;&nbsp;&nbsp; <a href="http://suchspy.meteor.com" target="_blank">Spyfall</a>
   </div>
 </template>

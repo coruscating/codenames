@@ -31,8 +31,7 @@
 .container {
   position: relative; 
   width: 90%; 
-  max-width: 960px; 
-  margin: 0 auto; 
+  margin: 5% auto; 
   padding: 0; }
 .container .column,        
 .container .columns { 
@@ -101,11 +100,17 @@ are based on 10px sizing. So basically 1.5rem = 15px :) */
 html { 
   font-size: 62.5%; } 
 body {
-  font-size: 2.0em; /* currently ems cause chrome bug misinterpreting rems on body element */
+  font-size: 1.5vw; /* currently ems cause chrome bug misinterpreting rems on body element */
   line-height: 1.6;
   font-weight: 400;
   font-family: "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #222; }
+  color: #222;
+      -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none; }
 
 
 /* Typography
@@ -162,7 +167,7 @@ input[type="button"] {
   border: 1px solid #bbb;
   height: 38px;
   line-height: 38px;
-  padding: 0 30px;
+  padding: 0 20px;
   letter-spacing: .1rem;
   text-transform: uppercase; 
   white-space: nowrap;
@@ -316,7 +321,6 @@ fieldset {
   margin-bottom: 1.5rem; }
 pre,
 blockquote,
-form,
 dl,
 figure,
 table,

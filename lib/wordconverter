@@ -3,7 +3,7 @@ fileout="locations2.js"
 
 sort -u wordlist2 -o wordlist2
 
-echo "locations = [" > $fileout
+echo "locations2 = [" > $fileout
 
 while read -r line
 do
@@ -11,4 +11,7 @@ do
     echo "{name: '$line'}," >> $fileout
 done < $filein
 
+
+sed -i '' '$s/,//' $fileout
 echo "];" >> $fileout
+

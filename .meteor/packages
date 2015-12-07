@@ -10,11 +10,15 @@ jquery
 mizzao:timesync
 momentjs:moment
 mrt:cron-tick
-datariot:ganalytics
-mrt:qrcodesvg
 iron:router
 tap:i18n
 
 amplify
 mrt:flash-messages
 less
+
+
+# for shell commands
+#meteorhacks:npm
+
+#npm-container
