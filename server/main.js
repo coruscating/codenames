@@ -1,5 +1,6 @@
+/*
 function cleanUpGamesAndPlayers(){
-  var cutOff = moment().subtract(2, 'hours').toDate().getTime();
+  var cutOff = moment().subtract(0, 'hours').toDate().getTime();
 
   var numGamesRemoved = Games.remove({
     createdAt: {$lt: cutOff}
@@ -10,12 +11,15 @@ function cleanUpGamesAndPlayers(){
   });
 }
 
+*/
 Meteor.startup(function () {
   // Delete all games and players at startup
   Games.remove({});
   Players.remove({});
 });
 
+/*
 var MyCron = new Cron(60000);
 
 MyCron.addJob(5, cleanUpGamesAndPlayers);
+*/
