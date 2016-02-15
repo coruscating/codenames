@@ -18,8 +18,6 @@
     <div class="main-content">
       {{> Template.dynamic template=whichView}}
 
-      
-
       {{> footer }}
     </div>
   </div>
@@ -59,7 +57,11 @@
 <template name="lobby">
 <table width=100%><tr><td><input type="button" value="New Game" class="btn-refresh-list"></td><td>
 <button class="down"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.lengthInMinutes }} minutes&nbsp;&nbsp;<button class="up"><div style='font-size:1.5em;'>+</div></button></td><td><button class="down2"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.totalnum }} codenames&nbsp;&nbsp;<button class="up2"><div style='font-size:1.5em;'>+</div></button></td>
-  <td> <input type=checkbox id=location2 name=location2><label for=location2> Additional words</label></td> </tr></table>
+  <td>
+    
+    <input type=checkbox id=wordlist_orig name=wordlist_orig class=selection checked><label for=wordlist_orig> Original list ({{ wordlist_orig_len }})</label><br>
+   <input type=checkbox id=wordlist_2 name=wordlist_2 class=selection ><label for=wordlist_2> Additional words ({{ wordlist_2_len }})</label><br>
+    <input type=checkbox id=wordlist_starwars class=selection name=wordlist_starwars><label for=wordlist_starwars> Star Wars! ({{ wordlist_starwars_len }})</label></td></tr></table>
 {{test}}
   <ul class="location-list lobby">
     {{#each game.locationlist }}
@@ -79,22 +81,32 @@
 </template>
 
 <template name="gameView">
-<div style="width:20%;float: left;"> <center><h5><div style="width:100px;float:left;"><a href="#" class="blue {{#if gameFinished }}finished{{/if}} {{#if game.bluepaused }}paused{{/if}}">{{{ bluetimeRemaining }}}</a></div><div style="padding: 0 10px 0 0;"><a href="#" class="red {{#if gameFinished }}finished{{/if}} {{#if game.redpaused }}paused{{/if}}">{{{ redtimeRemaining }}}</a></div></h5></center>
+<div style="width:20%;float: left;"> <center><h5>
+<div style="width:10vw;float:left;"><a href="#" class="blue {{#if gameFinished }}finished{{/if}} {{#if game.bluepaused }}paused{{/if}}">{{{ bluetimeRemaining }}}</a></div>
+
+
+<div><a href="#" class="red {{#if gameFinished }}finished{{/if}} {{#if game.redpaused }}paused{{/if}}">{{{ redtimeRemaining }}}</a></div></h5>
+
+<h5><div style="width:10vw;float:left;" class=blue>{{ bluescore }}/{{ bluetotal }}</div>
+<div class=red>{{ redscore }}/{{ redtotal }}</div>
+</h5>
+</center>
+<hr>
+
  <!-- <button class="btn-toggle-status">{{_ "ui.show hide" }}</button>-->
 {{#if isBlue }}
-        <h5><span class=blue>Blue</span> Spymaster</h5>
+        <h5>Blue Spymaster</h5>
       {{/if}}
 
       {{#if isRed }}
-        <h5><span class=red>Red</span> Spymaster</h5>
+        <h5>Red Spymaster</h5>
       {{/if}}
 
 
-
-
-<h5>{{ statustext }}</h5>
-<h5><span class=blue>Blue: {{ bluescore }} out of {{ bluetotal }}</span><br>
-<span class=red>Red: {{ redscore }} out of {{ redtotal }}</span></h5><br>
+<h5><span class="{{#if redTurn}}red{{/if}} {{#if blueTurn}}blue{{/if}}">{{ statustext }}</span></h5><br>
+<!--
+<h5><span class=blue>Blue: {{ bluescore }}/{{ bluetotal }}</span><br>
+<span class=red>Red: {{ redscore }}/{{ redtotal }}</span></h5><br>-->
 <button class="btn-pass">Pass turn</button>
 </div>
   <div class="status-container">
@@ -127,8 +139,9 @@
   
 
   <div class="button-container">
+
     <button class="btn-end">Back</button>
-  
+  <button class="btn-pause">{{ #if pausetext }}un{{/if}}pause</button>
   </div>
   </div>
 </template>

@@ -1,9 +1,12 @@
+#filein="wordlist_starwars"
+#fileout="locations_starwars.js"
+
 filein="wordlist2"
-fileout="locations2.js"
+fileout="wordlist_2.js"
 
 sort -u wordlist2 -o wordlist2
 
-echo "locations2 = [" > $fileout
+echo "wordlist_2 = [" > $fileout
 
 while read -r line
 do

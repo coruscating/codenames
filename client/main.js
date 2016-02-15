@@ -80,17 +80,27 @@ function generateLocations(){
     var found;
     var start=Math.floor(Math.random() * (2)); // starting player
     var game=getCurrentGame();
-    var locationsarr=locations;
+    var locationsarr=[];
     var totalnum=game.totalnum;
-    var firstnum=(Math.sqrt(totalnum)-2)*3;
+    var firstnum=Math.round((Math.sqrt(totalnum)-2)*3);
 
-    if($('#location2').is(":checked")){
-      locationsarr=locations.concat(locations2);
-      Session.set("location2",true);
-    } else {
-      Session.set("location2",false);
+    $(".selection").each(function(){
+      if($(this).is(":checked")){
+        eval("locationsarr=locationsarr.concat(" + this.id + ")");
+        Session.set(this.id, true);
+      } else {
+        Session.set(this.id, false);
+      }
+    });
+    //locationsarr=wordlist_orig;
+    if(locationsarr.length==0){
+      locationsarr=wordlist_orig;
     }
     
+    locationsarr.sort().filter(function(item, pos, ary) {
+        return !pos || item != ary[pos - 1];
+    })
+
     while (arr.length < totalnum){
       var randomnumber=Math.floor(Math.random() * locationsarr.length);
       found=false;
@@ -112,7 +122,7 @@ function generateLocations(){
         realarr[i]["name"]=realarr[i]["name"].replace(" ","_");
         
         if(start==0){
-          Games.update(game._id, {$set: {firstplayer: "red", bluepaused: true, redpaused: false, statustext: "Red's turn", redtotal: firstnum, bluetotal: firstnum-1}});
+          Games.update(game._id, {$set: {turn: "red", bluepaused: true, redpaused: false, statustext: "Red's turn", redtotal: firstnum, bluetotal: firstnum-1}});
           if (i <= firstnum-1){
             realarr[i]["type"]="red";
           } else if (i==firstnum){
@@ -126,7 +136,7 @@ function generateLocations(){
           realarr[i]["assassin"]=i==9 ? true : false;
           realarr[i]["blue"]=i>=17 ? true : false;*/
         } else {
-          Games.update(game._id, {$set: {firstplayer: "blue", redpaused: true, bluepaused: false, statustext: "Blue's turn", redtotal: firstnum-1, bluetotal: firstnum}});
+          Games.update(game._id, {$set: {turn: "blue", redpaused: true, bluepaused: false, statustext: "Blue's turn", redtotal: firstnum-1, bluetotal: firstnum}});
             if (i <= firstnum-2){
             realarr[i]["type"]="red";
           } else if (i==firstnum){
@@ -169,6 +179,7 @@ function generateNewGame(){
     paused: false,
     bluepaused: false,
     redpaused: false,
+    turn: "red",
     redscore: 0,
     bluescore: 0,
     firstplayer: "red",
@@ -372,21 +383,26 @@ Template.startMenu.events({
 
 
 Template.lobby.rendered = function(){
-    var min = Session.get('length');
+    var num = Session.get('length');
     var game = getCurrentGame();
-    if(min){
-        Games.update(game._id, {$set: {lengthInMinutes: min}});
+    if(num){
+        Games.update(game._id, {$set: {lengthInMinutes: num}});
       }
 
-    var num = Session.get('spies');
+    num = Session.get('wordlist_orig');
     if(num){
-        Games.update(game._id, {$set: {numberOfSpies: num}});
-      }
-    num = Session.get('location2');
-    if(num){
-      $('#location2').prop("checked",true);
+      $('#wordlist_orig').prop("checked",true);
     }
-        num = Session.get('length');
+    num = Session.get('wordlist_2');
+    if(num){
+      $('#wordlist_2').prop("checked",true);
+    }
+    num = Session.get('wordlist_starwars');
+    if(num){
+      $('#wordlist_starwars').prop("checked",true);
+    }
+
+    num = Session.get('totalnum');
     if(num){
       Games.update(game._id, {$set: {totalnum: num}});
     }
@@ -403,8 +419,6 @@ Template.lobby.helpers({
   locations: function () {
     return game.locationlist;
   },  
-
-  
   players: function () {
     var game = getCurrentGame();
     var currentPlayer = getCurrentPlayer();
@@ -422,7 +436,16 @@ Template.lobby.helpers({
     });
 
     return players;
-  }
+  },
+  wordlist_orig_len: function(){
+    return wordlist_orig.length;
+  },
+  wordlist_2_len: function(){
+    return wordlist_2.length;
+  },
+  wordlist_starwars_len: function(){
+    return wordlist_starwars.length;
+  }    
 });
 
 Template.lobby.events({
@@ -446,21 +469,21 @@ Template.lobby.events({
     },
     'click .up2': function() {
         var game = getCurrentGame();
-        var length = game.totalnum;
-        if(length<25){
-            length=25;
-            Session.set('length',length);
-            Games.update(game._id, {$set: {totalnum: length}});
-            generateLocations();
+        var totalnum = game.totalnum;
+        if (totalnum<100){
+          totalnum=totalnum+5;
+          Session.set('totalnum',totalnum);
+          Games.update(game._id, {$set: {totalnum: totalnum}});
+          generateLocations();
         }
     },
     'click .down2': function() {
         var game = getCurrentGame();
-        var length = game.totalnum;
-        if(length>16){
-            length=16;
-            Session.set('length',length);
-            Games.update(game._id, {$set: {totalnum: length}});
+        var totalnum = game.totalnum;
+        if(totalnum>10){
+            totalnum=totalnum-5;
+            Session.set('totalnum',totalnum);
+            Games.update(game._id, {$set: {totalnum: totalnum}});
             generateLocations();
         }
     },
@@ -478,13 +501,8 @@ Template.lobby.events({
     //assignRoles(players, location);
     Session.set('currentView', 'gameView');
     Games.update(game._id, {$set: {state: 'inProgress', redendTime: gameEndTime, blueendTime: gameEndTime, paused: false, bluepausedTime: TimeSync.serverTime(moment()), redpausedTime: TimeSync.serverTime(moment())}});
-    console.log(Games);
+    //console.log(Games);
   },
-  /*location2length: function(){
-    console.log("hi");
-    console.log(locations2);
-    return locations2.length;
-  },*/
   'click #location2': function(event){
     var game=getCurrentGame();
     var newlocationlist=generateLocations();
@@ -499,7 +517,6 @@ Template.lobby.events({
       var newlocationlist = generateLocations();
       var newlocation = getRandomLocation(newlocationlist);
       Games.update(game._id, {$set: {locationlist: newlocationlist, location: newlocation}});
-      //console.log("here");
   },
   'click .btn-edit-player': function (event) {
     var game = getCurrentGame();
@@ -511,32 +528,36 @@ Template.lobby.events({
 
 
 function switchPlayers(){
-    var game=getCurrentGame();
+  var game=getCurrentGame();
+  if(game.paused != true){
+    
     var currentServerTime = TimeSync.serverTime(moment());
-    if(game.bluepaused == true && game.redpaused==false){ // switching to blue's turn
+    if(game.turn=="red"){ // switching to blue's turn
       var newEndTime = game.blueendTime - game.bluepausedTime + currentServerTime;
-      Games.update(game._id, {$set: {statustext: "Blue's turn", blueendTime: newEndTime, bluepaused: false, redpaused: true, bluepausedTime: null, redpausedTime: currentServerTime}});
-    } else if (game.bluepaused == false && game.redpaused==true){
+      Games.update(game._id, {$set: {turn: "blue", statustext: "Blue's turn", blueendTime: newEndTime, bluepaused: false, redpaused: true, bluepausedTime: null, redpausedTime: currentServerTime}});
+    } else if (game.turn=="blue"){
       var newEndTime = game.redendTime - game.redpausedTime + currentServerTime;
-      Games.update(game._id, {$set: {statustext: "Red's turn",redendTime: newEndTime, bluepaused: true, redpaused: false, redpausedTime: null, bluepausedTime: currentServerTime}});
+      Games.update(game._id, {$set: {turn: "red", statustext: "Red's turn",redendTime: newEndTime, bluepaused: true, redpaused: false, redpausedTime: null, bluepausedTime: currentServerTime}});
     }
+  }
 }
 
 
 function getTimeRemaining(player){
   var game = getCurrentGame();
-  if (player==0){
-    var localEndTime = game.blueendTime - TimeSync.serverOffset();
+  var ctime=TimeSync.serverOffset();
+  if (player==0){ //blue
+    var localEndTime = game.blueendTime - ctime;
     if(game.bluepaused==true){
-      var localPausedTime = game.bluepausedTime - TimeSync.serverOffset();
+      var localPausedTime = game.bluepausedTime - ctime;
       var timeRemaining = localEndTime - localPausedTime;
     } else{
       var timeRemaining = localEndTime - Session.get('time');
     }
   } else {
-    var localEndTime = game.redendTime - TimeSync.serverOffset();
+    var localEndTime = game.redendTime - ctime;
     if(game.redpaused==true){
-      var localPausedTime = game.redpausedTime - TimeSync.serverOffset();
+      var localPausedTime = game.redpausedTime - ctime;
       var timeRemaining = localEndTime - localPausedTime;
     } else{
       var timeRemaining = localEndTime - Session.get('time');
@@ -551,11 +572,15 @@ function getTimeRemaining(player){
 }
 
 Template.gameView.rendered = function() {
-  console.log(getCurrentGame());
+  //console.log(getCurrentGame());
 }
 
 Template.gameView.helpers({
   game: getCurrentGame,
+  pausetext: function(){
+    var game=getCurrentGame();
+    return game.paused;
+  },
   statustext: function(){
     var game=getCurrentGame();
     return game.statustext;
@@ -626,6 +651,22 @@ Template.gameView.helpers({
   bluescore: function(){
     var game=getCurrentGame();
     return game.bluescore;
+  },
+  redTurn: function(){
+    var game=getCurrentGame();
+    if (game.turn=="red"){
+      return true;
+    } else {
+      return false;
+    }
+  },
+  blueTurn: function(){
+    var game=getCurrentGame();
+    if (game.turn=="blue"){
+      return true;
+    } else {
+      return false;
+    }
   }
 });
 
@@ -638,7 +679,7 @@ Template.gameView.events({
 
     var game = getCurrentGame();
     //Games.remove(game._id);
-    Session.set("currentView", "startMenu");
+    Session.set("currentView", "lobby");
   },
   'click .location-unrevealed': function(event){
     var game=getCurrentGame();
@@ -646,7 +687,7 @@ Template.gameView.events({
       var locationlist=game.locationlist;
       var id=event.currentTarget.id;
       id=id.split("-")[1];
-
+      ptime=TimeSync.serverTime(moment());
      
       for (var i=0;i<locationlist.length;i++){
         if(locationlist[i].name==id){
@@ -654,46 +695,43 @@ Template.gameView.events({
             var score=game.redscore+1;
             locationlist[i].reveal="red";
             Games.update(game._id, {$set: {redscore: score}});
-            if (game.bluepaused==false){
+            if (game.turn=="blue"){
               switchPlayers();
             }
             if(score==game.redtotal){
-              if (game.redpaused==false){
-                Games.update(game._id, {$set: {redpausedTime: TimeSync.serverTime(moment())}});
+              if (game.turn=="red"){
+                Games.update(game._id, {$set: {redpausedTime: ptime}});
               } else {
-                Games.update(game._id, {$set: {bluepausedTime: TimeSync.serverTime(moment())}});
+                Games.update(game._id, {$set: {bluepausedTime: ptime}});
               }
-              Games.update(game._id, {$set: {statustext: "Red wins!",redpaused: true, bluepaused: true, pausedTime: TimeSync.serverTime(moment())}});
+              Games.update(game._id, {$set: {statustext: "Red wins!",turn: "red", redpaused: true, bluepaused: true, pausedTime: ptime}});
             }
           } else if (locationlist[i].type=="blue"){
             var score=game.bluescore+1;
             locationlist[i].reveal="blue";
             Games.update(game._id, {$set: {bluescore: score}});
-            if (game.redpaused==false){
+            if (game.turn=="red"){
               switchPlayers();
             }
             if(score==game.bluetotal){
-              if (game.redpaused==false){
-                Games.update(game._id, {$set: {redpausedTime: TimeSync.serverTime(moment())}});
+              if (game.turn=="red"){
+                Games.update(game._id, {$set: {redpausedTime: ptime}});
               } else {
-                Games.update(game._id, {$set: {bluepausedTime: TimeSync.serverTime(moment())}});
+                Games.update(game._id, {$set: {bluepausedTime: ptime}});
               }
-              Games.update(game._id, {$set: {statustext: "Blue wins!",redpaused: true, bluepaused: true, pausedTime: TimeSync.serverTime(moment())}});
+              Games.update(game._id, {$set: {statustext: "Blue wins!",turn: "blue", redpaused: true, bluepaused: true, pausedTime: ptime}});
             }
           } else if(locationlist[i].type=="assassin"){
             locationlist[i].reveal="assassin";
-              if (game.redpaused==false){
-                Games.update(game._id, {$set: {redpausedTime: TimeSync.serverTime(moment())}});
+              if (game.turn=="red"){
+                Games.update(game._id, {$set: {statustext: "Blue wins!", turn: "blue", redpaused: true, bluepaused: true, pausedTime: ptime, redpausedTime: ptime}});
               } else {
-                Games.update(game._id, {$set: {bluepausedTime: TimeSync.serverTime(moment())}});
+                Games.update(game._id, {$set: {statustext: "Red wins!", turn: "red", redpaused: true, bluepaused: true, pausedTime: ptime, bluepausedTime: ptime}});
               }
-            Games.update(game._id, {$set: {statustext: "Game over!",redpaused: true, bluepaused: true, pausedTime: TimeSync.serverTime(moment())}});
-            //$('#location-' + id).removeClass("location-unrevealed").addClass("location-assassin");
           }
            else{
             locationlist[i].reveal="neutral";
             switchPlayers();
-            //$('#location-' + id).removeClass("location-unrevealed").addClass("location-neutral");
           }
           Games.update(game._id, {$set: {locationlist: locationlist}});
           break;
@@ -706,15 +744,26 @@ Template.gameView.events({
   'click .btn-toggle-status': function () {
     $(".game-countdown").toggle();
   },
-  'click .blue-game-countdown': function () {
+  'click .btn-pause': function () {
     var game = getCurrentGame();
     var currentServerTime = TimeSync.serverTime(moment());
 
     if(game.paused){
-      var newEndTime = game.endTime - game.pausedTime + currentServerTime;
-      Games.update(game._id, {$set: {paused: false, pausedTime: null, endTime: newEndTime}});
-    } else {
-      Games.update(game._id, {$set: {paused: true, pausedTime: currentServerTime}});
+      var newblueEndTime = game.blueendTime - game.bluepausedTime + currentServerTime;
+      var newredEndTime = game.redendTime - game.redpausedTime + currentServerTime;
+
+      Games.update(game._id, {$set: {paused: false}});
+      if(game.turn=="red"){ // blue was paused, red is now unpausing
+        Games.update(game._id, {$set: {redpaused: false, bluepaused: true, redendTime: newredEndTime, redpausedTime: null}});
+      } else { // red was paused, blue is now unpausing
+        Games.update(game._id, {$set: {redpaused: true, bluepaused: false, blueendTime: newblueEndTime, bluepausedTime: null}});
+      }
+    } else { // pausing the game
+      if(game.turn=="red"){
+        Games.update(game._id, {$set: {paused: true, redpaused: true, bluepaused: true, redpausedTime: currentServerTime}});
+      } else {
+        Games.update(game._id, {$set: {paused: true, redpaused: true, bluepaused: true, bluepausedTime: currentServerTime}});
+      }
     }
   }
 });
