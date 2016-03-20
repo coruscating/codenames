@@ -1,12 +1,14 @@
-#filein="wordlist_starwars"
-#fileout="locations_starwars.js"
+filein="wordlist"_$1
+fileout="wordlist"_$1".js"
 
-filein="wordlist2"
-fileout="wordlist_2.js"
+if [ -z $filein ] ; then
+    echo "Usage: wordconverter <name of wordlist>"
+    exit 0
+fi
 
-sort -u wordlist2 -o wordlist2
+sort -u $filein -o $filein
 
-echo "wordlist_2 = [" > $fileout
+echo "$filein = [" > $fileout
 
 while read -r line
 do

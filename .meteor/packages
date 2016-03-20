@@ -17,6 +17,7 @@ amplify
 mrt:flash-messages
 less
 
+rcy:nouislider
 
 # for shell commands
 #meteorhacks:npm

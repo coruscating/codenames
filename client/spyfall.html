@@ -24,14 +24,18 @@
 </template>
 
 <template name="startMenu">
-  <div class="main-menu" style="padding: 15% 0 5% 0;">
+  <div class="main-menu" style="padding: 12vw 0 12vw 0;">
     <h3>Codenames</h3>
 
     <hr>
+    <div id=spymaster class=join-game></div>
+    <div id=operative class=join-game></div>
 
-  <form id="join-game">  
+
+  <!--<form id="join-game">  
     <div>
-      
+    
+
       <input type=radio id="red" name="playerType" value="red"> <label for="red" class="labels"><span class=red>Red</span> Spymaster</label>
 
       <br><input type=radio id="blue" name="playerType" value="blue"> <label for="blue" class="labels"><span class=blue>Blue</span> Spymaster</label>
@@ -45,7 +49,7 @@
         
       </div>
     </div>
-  </form>
+  </form>-->
 </div>
 
 
@@ -56,18 +60,23 @@
 
 <template name="lobby">
 <table width=100%><tr><td><input type="button" value="New Game" class="btn-refresh-list"></td><td>
-<button class="down"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.lengthInMinutes }} minutes&nbsp;&nbsp;<button class="up"><div style='font-size:1.5em;'>+</div></button></td><td><button class="down2"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.totalnum }} codenames&nbsp;&nbsp;<button class="up2"><div style='font-size:1.5em;'>+</div></button></td>
+<button class="down"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.lengthInMinutes }} minutes&nbsp;&nbsp;
+
+<button class="up"><div style='font-size:1.5em;'>+</div></button></td>
+<td><button class="down2"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.totalnum }} codenames&nbsp;&nbsp;<button class="up2"><div style='font-size:1.5em;'>+</div></button>
+</td>
   <td>
-    
-    <input type=checkbox id=wordlist_orig name=wordlist_orig class=selection checked><label for=wordlist_orig> Original list ({{ wordlist_orig_len }})</label><br>
-   <input type=checkbox id=wordlist_2 name=wordlist_2 class=selection ><label for=wordlist_2> Additional words ({{ wordlist_2_len }})</label><br>
-    <input type=checkbox id=wordlist_starwars class=selection name=wordlist_starwars><label for=wordlist_starwars> Star Wars! ({{ wordlist_starwars_len }})</label></td></tr></table>
+    {{#each listofwordlists }}
+    <input type=checkbox id={{_ name }} name={{_ name }} checked={{ isChecked name }} class=selection><label for={{_ name }}> {{_ label }} ({{_ len }})</label><br>
+{{/each}}
+<!-- checked={{isChecked name}} -->
+  </td></tr></table>
 {{test}}
   <ul class="location-list lobby">
     {{#each game.locationlist }}
 
       <li>
-        <div class="location-name">{{_ displayname }}</div>
+        <div class="location-name" style="padding: {{_ height}}vw 0 {{_ height}}vw 0;">{{_ displayname }}</div>
         </li>
     {{/each}}
   </ul>
@@ -81,6 +90,7 @@
 </template>
 
 <template name="gameView">
+  <div style="padding: 5vw 0 5vw 0;">
 <div style="width:20%;float: left;"> <center><h5>
 <div style="width:10vw;float:left;"><a href="#" class="blue {{#if gameFinished }}finished{{/if}} {{#if game.bluepaused }}paused{{/if}}">{{{ bluetimeRemaining }}}</a></div>
 
@@ -95,11 +105,11 @@
 
  <!-- <button class="btn-toggle-status">{{_ "ui.show hide" }}</button>-->
 {{#if isBlue }}
-        <h5>Blue Spymaster</h5>
+        <h5>Spymaster</h5>
       {{/if}}
 
       {{#if isRed }}
-        <h5>Red Spymaster</h5>
+        <h5>Spymaster</h5>
       {{/if}}
 
 
@@ -121,7 +131,7 @@
 <ul class="location-list">
     {{#each game.locationlist }}
       <li class="location-{{_ reveal }}" id="location-{{_ name }}">
-        <div class="location-name">{{_ displayname }}</div>
+        <div class="location-name {{_ long}}" style="padding: {{_ height}}vw 0 {{_ height}}vw 0;">{{_ displayname }}</div>
       </li>
     {{/each}}
   </ul>
@@ -130,7 +140,7 @@
   <ul class="location-list">
     {{#each game.locationlist }}
 <li class="location-{{_ type }} spymaster-{{_ reveal }}">
-<div class="location-name">{{_ displayname }}</div>
+<div class="location-name {{_ long}}" style="padding: {{_ height}}vw 0 {{_ height}}vw 0;">{{_ displayname }}</div>
 </li>
     {{/each}}
   </ul>
@@ -144,15 +154,13 @@
   <button class="btn-pause">{{ #if pausetext }}un{{/if}}pause</button>
   </div>
   </div>
+  </div>
 </template>
 
 
 
 
-
 <template name="footer">
-
-
   <div class="footer" style="clear:both;">
     <br>
     <a href="/rules.pdf" target="_blank">Rules</a> &nbsp;&nbsp;&nbsp; <a href="http://suchspy.meteor.com" target="_blank">Spyfall</a>

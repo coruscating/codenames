@@ -83,36 +83,47 @@ function generateLocations(){
     var locationsarr=[];
     var totalnum=game.totalnum;
     var firstnum=Math.round((Math.sqrt(totalnum)-2)*3);
+    var assassinnum=Math.round(totalnum/25);
+
+    if(assassinnum==0){
+      assassinnum=1;
+    }
 
     $(".selection").each(function(){
       if($(this).is(":checked")){
         eval("locationsarr=locationsarr.concat(" + this.id + ")");
-        Session.set(this.id, true);
+        Session.set(this.id + "_checked", true);
       } else {
-        Session.set(this.id, false);
+        Session.set(this.id + "_checked", false);
       }
     });
-    //locationsarr=wordlist_orig;
-    if(locationsarr.length==0){
+    
+    // don't let users do something stupid
+    if(locationsarr.length<totalnum){
       locationsarr=wordlist_orig;
     }
-    
+    // remove dupes
     locationsarr.sort().filter(function(item, pos, ary) {
         return !pos || item != ary[pos - 1];
-    })
+    });
 
-    while (arr.length < totalnum){
+    var arrlen=0;
+    while (arrlen < totalnum){
       var randomnumber=Math.floor(Math.random() * locationsarr.length);
-      found=false;
-      for(var i=0;i<arr.length;i++){
+      //found=false;
+      if(arr.indexOf(randomnumber)==-1){
+        arr.push(randomnumber);
+        arrlen+=1;
+      }
+      /*for(var i=0;i<arr.length;i++){
         if(arr[i]==randomnumber){
         found=true;
         break;
-        }
-      }
-      if(!found){
+        }*/
+      //}
+      /*if(!found){
       arr[arr.length]=randomnumber;
-      }
+      }*/
     }
 
     for (var i=0;i<arr.length;i++){
@@ -120,21 +131,26 @@ function generateLocations(){
         realarr[i]["reveal"]="unrevealed";
         realarr[i]["displayname"]=realarr[i]["name"].replace("_"," ");
         realarr[i]["name"]=realarr[i]["name"].replace(" ","_");
+        if (realarr[i]["displayname"].length >= 12){
+          realarr[i]["long"]="longer";
+        } else if(realarr[i]["displayname"].length>=10) {
+          realarr[i]["long"]="long";
+        } else{
+          realarr[i]["long"]="normal";
+        }
         
         if(start==0){
           Games.update(game._id, {$set: {turn: "red", bluepaused: true, redpaused: false, statustext: "Red's turn", redtotal: firstnum, bluetotal: firstnum-1}});
           if (i <= firstnum-1){
             realarr[i]["type"]="red";
-          } else if (i==firstnum){
+          } else if (i>=firstnum && i < firstnum+assassinnum){
             realarr[i]["type"]="assassin";
           } else if (i>=(totalnum-firstnum+1)) {
             realarr[i]["type"]="blue";
           } else {
             realarr[i]["type"]="neutral";
           }
-          /*realarr[i]["red"]=i<=8 ? true : false;
-          realarr[i]["assassin"]=i==9 ? true : false;
-          realarr[i]["blue"]=i>=17 ? true : false;*/
+
         } else {
           Games.update(game._id, {$set: {turn: "blue", redpaused: true, bluepaused: false, statustext: "Blue's turn", redtotal: firstnum-1, bluetotal: firstnum}});
             if (i <= firstnum-2){
@@ -147,9 +163,6 @@ function generateLocations(){
             realarr[i]["type"]="neutral";
           }
 
-          /*realarr[i]["red"]=i<=7 ? true : false;
-          realarr[i]["assassin"]=i==8 ? true : false;
-          realarr[i]["blue"]=i>=16 ? true : false;*/  
         }
     }
 
@@ -159,7 +172,7 @@ function generateLocations(){
         realarr[i] = realarr[j];
         realarr[j] = temp;
     }
-  Games.update(game._id, {$set: {bluescore: 0, redscore: 0}});
+  Games.update(game._id, {$set: {bluescore: 0, redscore: 0, locationlist: realarr}});
 
     
     return realarr;
@@ -209,10 +222,7 @@ function generateNewPlayer(game, name){
   return Players.findOne(playerID);
 }
 
-function getRandomLocation(locationarr){
-  var locationIndex = Math.floor(Math.random() * locationarr.length);
-  return locationarr[locationIndex];
-}
+
 
 function shuffleArray(array) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -342,9 +352,7 @@ Template.startMenu.helpers({
   
 });
 Template.startMenu.events({
-  'submit #join-game': function (event) {
-    
-    
+  'click .join-game': function (event) {
     var game = getCurrentGame();
 
     if (!game){
@@ -372,8 +380,11 @@ Template.startMenu.events({
         Games.update(game._id, {$set: {locationlist: newlocationlist}});
     }
 
-      
-      Session.set("playerType", event.target.playerType.value);
+      if(event.target.id=="operative"){
+      Session.set("playerType", "neutral");
+    } else {
+      Session.set("playerType", "red");
+    }
 
       Session.set("currentView", "lobby");
 
@@ -389,18 +400,6 @@ Template.lobby.rendered = function(){
         Games.update(game._id, {$set: {lengthInMinutes: num}});
       }
 
-    num = Session.get('wordlist_orig');
-    if(num){
-      $('#wordlist_orig').prop("checked",true);
-    }
-    num = Session.get('wordlist_2');
-    if(num){
-      $('#wordlist_2').prop("checked",true);
-    }
-    num = Session.get('wordlist_starwars');
-    if(num){
-      $('#wordlist_starwars').prop("checked",true);
-    }
 
     num = Session.get('totalnum');
     if(num){
@@ -413,10 +412,29 @@ Template.lobby.helpers({
   game: function () {
     return getCurrentGame();
   },
+  listofwordlists: [
+  {name: "wordlist_orig", label: "Original", len: wordlist_orig.length},
+  {name: "wordlist_stem", label: "STEM", len: wordlist_stem.length},
+  {name: "wordlist_starwars", label: "Star Wars!", len: wordlist_starwars.length},
+  {name: "wordlist_indianajones", label: "Indiana Jones!", len: wordlist_indianajones.length},
+  {name: "wordlist_boardgames", label: "Board games!", len: wordlist_boardgames.length}
+  ],
+  isChecked: function(name){
+    if (Session.get(name + "_checked") == true){
+      return true;
+    } else {
+      return false;
+    }
+  },
+  height: function(){
+    var game=getCurrentGame();
+    return parseFloat(15/(game.totalnum/5)).toFixed(1);
+  },
   player: function () {
     return getCurrentPlayer();
   },
   locations: function () {
+    var game=getCurrentGame();
     return game.locationlist;
   },  
   players: function () {
@@ -436,16 +454,7 @@ Template.lobby.helpers({
     });
 
     return players;
-  },
-  wordlist_orig_len: function(){
-    return wordlist_orig.length;
-  },
-  wordlist_2_len: function(){
-    return wordlist_2.length;
-  },
-  wordlist_starwars_len: function(){
-    return wordlist_starwars.length;
-  }    
+  } 
 });
 
 Template.lobby.events({
@@ -501,13 +510,15 @@ Template.lobby.events({
     //assignRoles(players, location);
     Session.set('currentView', 'gameView');
     Games.update(game._id, {$set: {state: 'inProgress', redendTime: gameEndTime, blueendTime: gameEndTime, paused: false, bluepausedTime: TimeSync.serverTime(moment()), redpausedTime: TimeSync.serverTime(moment())}});
-    //console.log(Games);
   },
   'click #location2': function(event){
     var game=getCurrentGame();
     var newlocationlist=generateLocations();
     Games.update(game._id, {$set: {locationlist: newlocationlist}})
   },
+  //'click .selection': function(event){
+  //  Session.set(event.currentTarget.id + "_checked", event.currentTarget.checked);
+  //},
   'click .btn-remove-player': function (event) {
     var playerID = $(event.currentTarget).data('player-id');
     Players.remove(playerID);
@@ -515,8 +526,8 @@ Template.lobby.events({
   'click .btn-refresh-list': function (event) {
       var game = getCurrentGame();
       var newlocationlist = generateLocations();
-      var newlocation = getRandomLocation(newlocationlist);
-      Games.update(game._id, {$set: {locationlist: newlocationlist, location: newlocation}});
+      //var newlocation = getRandomLocation(newlocationlist);
+      //Games.update(game._id, {$set: {locationlist: newlocationlist, }});
   },
   'click .btn-edit-player': function (event) {
     var game = getCurrentGame();
@@ -577,6 +588,10 @@ Template.gameView.rendered = function() {
 
 Template.gameView.helpers({
   game: getCurrentGame,
+  height: function(){
+    var game=getCurrentGame();
+    return parseFloat(15/(game.totalnum/5)).toFixed(1);
+  },
   pausetext: function(){
     var game=getCurrentGame();
     return game.paused;
@@ -686,7 +701,7 @@ Template.gameView.events({
     if(game.paused != true){
       var locationlist=game.locationlist;
       var id=event.currentTarget.id;
-      id=id.split("-")[1];
+      id=id.split((/-(.+)?/))[1];
       ptime=TimeSync.serverTime(moment());
      
       for (var i=0;i<locationlist.length;i++){
