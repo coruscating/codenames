@@ -417,7 +417,8 @@ Template.lobby.helpers({
   {name: "wordlist_stem", label: "STEM", len: wordlist_stem.length},
   {name: "wordlist_starwars", label: "Star Wars!", len: wordlist_starwars.length},
   {name: "wordlist_indianajones", label: "Indiana Jones!", len: wordlist_indianajones.length},
-  {name: "wordlist_boardgames", label: "Board games!", len: wordlist_boardgames.length}
+  {name: "wordlist_boardgames", label: "Board games!", len: wordlist_boardgames.length},
+  {name: "wordlist_pusheen", label: "Pusheen!!", len: wordlist_pusheen.length}
   ],
   isChecked: function(name){
     if (Session.get(name + "_checked") == true){
@@ -425,6 +426,10 @@ Template.lobby.helpers({
     } else {
       return false;
     }
+  },
+  isImage: function(name){
+    console.log(name);
+    return name.endsWith(".gif");
   },
   height: function(){
     var game=getCurrentGame();
@@ -604,6 +609,10 @@ Template.gameView.helpers({
     var game=getCurrentGame();
     return game.redtotal;
   },
+  isImage: function(name){
+    console.log(name);
+    return name.endsWith(".gif");
+  },  
   bluetotal: function(){
     var game=getCurrentGame();
     return game.bluetotal;
