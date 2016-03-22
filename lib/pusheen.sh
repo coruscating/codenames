@@ -6,7 +6,7 @@ while :
 do
 echo "{name: 'pusheen/pusheen"$i"t.gif'}," >> wordlist_pusheen.js
 i=`expr $i + 1`
-if [ $i -ge 49 ] ; then
+if [ $i -ge 65 ] ; then
 echo "{name: 'pusheen/pusheen"$i"t.gif'}" >> wordlist_pusheen.js
 
 echo "];" >> wordlist_pusheen.js
