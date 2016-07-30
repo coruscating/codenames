@@ -1,0 +1,5 @@
+Problem! This project does not have a .meteor/release file. The file should
+either contain the release of Meteor that you want to use, or the word 'none'
+if you will only use the project with unreleased checkouts of Meteor. Please
+edit the .meteor/release file in the project and change it to a valid Meteor
+release or 'none'.

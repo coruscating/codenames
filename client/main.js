@@ -418,7 +418,8 @@ Template.lobby.helpers({
   {name: "wordlist_starwars", label: "Star Wars!", len: wordlist_starwars.length},
   {name: "wordlist_indianajones", label: "Indiana Jones!", len: wordlist_indianajones.length},
   {name: "wordlist_boardgames", label: "Board games!", len: wordlist_boardgames.length},
-  {name: "wordlist_pusheen", label: "Pusheen!!", len: wordlist_pusheen.length}
+  {name: "wordlist_pusheen", label: "Pusheen!", len: wordlist_pusheen.length},
+  {name: "wordlist_regex", label: "Regex!", len: wordlist_regex.length}
   ],
   isChecked: function(name){
     if (Session.get(name + "_checked") == true){
