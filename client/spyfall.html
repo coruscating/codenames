@@ -59,24 +59,26 @@
 
 
 <template name="lobby">
-<table width=100%><tr><td><input type="button" value="New Game" class="btn-refresh-list"></td><td>
+<div style="width:20%;float: left;">
+
+<input type="button" value="New Game" class="btn-refresh-list">
 <button class="down"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.lengthInMinutes }} minutes&nbsp;&nbsp;
 
-<button class="up"><div style='font-size:1.5em;'>+</div></button></td>
-<td><button class="down2"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.totalnum }} codenames&nbsp;&nbsp;<button class="up2"><div style='font-size:1.5em;'>+</div></button>
-</td>
-  <td>
+<button class="up"><div style='font-size:1.5em;'>+</div></button>
+<button class="down2"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.totalnum }} codenames&nbsp;&nbsp;<button class="up2"><div style='font-size:1.5em;'>+</div></button>
+
     {{#each listofwordlists }}
     <input type=checkbox id={{_ name }} name={{_ name }} checked={{ isChecked name }} class=selection><label for={{_ name }}> {{_ label }} ({{_ len }})</label><br>
+<div id=slider-{{_ name}} class=sliders></div>
 {{/each}}
 <!-- checked={{isChecked name}} -->
-  </td></tr></table>
+</div><div>  
 {{test}}
   <ul class="location-list lobby">
     {{#each game.locationlist }}
 
       <li class="location-unrevealed">
-        {{#if isImage displayname }} <div class="location-name" style="padding: 0;"><img src={{_ displayname }}></div> {{else}} <div class="location-name" style="padding: {{_ height}}vw 0 {{_ height}}vw 0;"> {{_ displayname}} </div>{{/if}}
+        {{#if isImage displayname }} <div class="location-name" style="padding: 0;"><img src={{_ displayname }}></div> {{else}} <div class="location-name" style="padding: {{_ height}}vw 0 {{_ height}}vw 0;"> {{{_ displayname}}} </div>{{/if}}
         </li>
     {{/each}}
   </ul>
@@ -87,6 +89,7 @@
     <button class="btn-start">Start Game</button>
     <button class="btn-leave">Back</button>
   </div>
+</div>
 </template>
 
 <template name="gameView">
@@ -133,7 +136,7 @@
 <ul class="location-list">
     {{#each game.locationlist }}
       <li class="location-{{_ reveal }}" id="location-{{_ name }}">
-        {{#if isImage displayname }}<div class="location-name {{_ long}}" style="padding: 0;"><img src={{_ displayname }}></div> {{else}} <div class="location-name {{_ long}}" style="padding: {{_ height}}vw 0 {{_ height}}vw 0;">{{_ displayname}}</div> {{/if}}
+        {{#if isImage displayname }}<div class="location-name {{_ long}}" style="padding: 0;"><img src={{_ displayname }}></div> {{else}} <div class="location-name {{_ long}}" style="padding: {{_ height}}vw 0 {{_ height}}vw 0;">{{{_ displayname}}}</div> {{/if}}
       </li>
     {{/each}}
   </ul>
@@ -142,7 +145,7 @@
   <ul class="location-list">
     {{#each game.locationlist }}
 <li class="location-{{_ type }} spymaster-{{_ reveal }}">
-{{#if isImage displayname }}<div class="location-name {{_ long}}" style="padding: 0;"><img src={{_ displayname }}></div> {{else}} <div class="location-name {{_ long}}" style="padding: {{_ height}}vw 0 {{_ height}}vw 0;"> {{_ displayname}} </div>{{/if}}
+{{#if isImage displayname }}<div class="location-name {{_ long}}" style="padding: 0;"><img src={{_ displayname }}></div> {{else}} <div class="location-name {{_ long}}" style="padding: {{_ height}}vw 0 {{_ height}}vw 0;"> {{{_ displayname}}} </div>{{/if}}
 </li>
     {{/each}}
   </ul>

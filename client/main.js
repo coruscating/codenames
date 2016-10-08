@@ -103,8 +103,13 @@ function generateLocations(){
       locationsarr=wordlist_orig;
     }
     // remove dupes
-    locationsarr.sort().filter(function(item, pos, ary) {
-        return !pos || item != ary[pos - 1];
+    var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
+    locationsarr=locationsarr.filter(function(item) {
+        var type = typeof item;
+        if(type in prims)
+            return prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true);
+        else
+            return objs.indexOf(item) >= 0 ? false : objs.push(item);
     });
 
     var arrlen=0;
@@ -126,12 +131,14 @@ function generateLocations(){
       }*/
     }
 
+    var reallen=0;
     for (var i=0;i<arr.length;i++){
         realarr[i]=locationsarr[arr[i]];
         realarr[i]["reveal"]="unrevealed";
         realarr[i]["displayname"]=realarr[i]["name"].replace("_"," ");
         realarr[i]["name"]=realarr[i]["name"].replace(" ","_");
-        if (realarr[i]["displayname"].length >= 12){
+        reallen=(realarr[i]["displayname"].match(/&/g) || []).length;
+        if ((realarr[i]["displayname"].length-reallen*4) >= 12){
           realarr[i]["long"]="longer";
         } else if(realarr[i]["displayname"].length>=10) {
           realarr[i]["long"]="long";
@@ -394,6 +401,13 @@ Template.startMenu.events({
 
 
 Template.lobby.rendered = function(){
+    $(".slider").each(function(){
+        noUiSlider.create(this, {
+            start: [1],
+            range: {'min': [0],
+                    'max': [0]
+                   }});
+    });
     var num = Session.get('length');
     var game = getCurrentGame();
     if(num){
