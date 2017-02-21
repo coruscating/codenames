@@ -37,9 +37,9 @@ function getLanguageList() {
 }
 
 function getCurrentGame(){
-  var gameID = "default";
+  var gameID = Session.get("room");
 
-    return Games.findOne(gameID);
+  return Games.findOne(gameID);
   
 }
 
@@ -187,9 +187,9 @@ function generateLocations(){
     return realarr;
 }
 
-function generateNewGame(){
+function generateNewGame(gameid){
   var game = {
-    _id: "default",
+    _id: gameid,
     accessCode: generateAccessCode(),
     state: "waitingForPlayers",
     locationlist: null,
@@ -211,7 +211,7 @@ function generateNewGame(){
   };
 
   var gameID = Games.insert(game);
-  game = Games.findOne("default");
+  game = Games.findOne(gameid);
 
   return game;
 }
@@ -330,7 +330,11 @@ Template.main.helpers({
 });
 
 Template.footer.helpers({
-  languages: getLanguageList
+  room: function(){
+    if(Session.get("room")){
+      return(Session.get("room"));
+    }
+  }
 })
 
 Template.footer.events({
@@ -341,14 +345,16 @@ Template.footer.events({
 })
 
 
-Template.startMenu.rendered = function () {
+//Template.startMenu.rendered = function () {
 
-  resetUserState();
-};
+  //resetUserState();
+
+//};
 
 Template.startMenu.rendered = function(){
-  if(Session.get("playerType")){
-
+  console.log("hi");
+  if(Session.get("room")){
+    $("#room").val(Session.get("room"));
   }
 }
 
@@ -361,11 +367,20 @@ Template.startMenu.helpers({
   
 });
 Template.startMenu.events({
+  'change #room': function (event){
+    console.log("hi");
+    console.log($("#room").val());
+    Session.set("room", $("#room").val());
+  },
   'click .join-game': function (event) {
     var game = getCurrentGame();
 
     if (!game){
-        var game = generateNewGame();
+        if(!Session.get("room")){
+            Session.set("room","Amethyst");
+        }
+
+        var game = generateNewGame(Session.get("room"));
         
         Session.set("gameID", game._id);
 
