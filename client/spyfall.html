@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="css/normalize.css" type="text/css">
   <link rel="stylesheet" href="css/skeleton.css" type="text/css">
   <link rel="stylesheet" href="css/styles.css" type="text/css">
+  <script src="https://use.fontawesome.com/202363b367.js"></script>
 </head>
 
 <body></body>
@@ -194,7 +195,7 @@ Room: <select id="room">
 
 <template name="footer">
   <div class="footer" style="clear:both;">
-    {{room}}
+    <span class="room-{{room}}"><i class="fa fa-diamond" aria-hidden="true"></i> {{room}}</span>
     <br>
     <a href="/rules.pdf" target="_blank">Rules</a> &nbsp;&nbsp;&nbsp; <a href="http://suchspy.meteor.com" target="_blank">Spyfall</a>
   </div>

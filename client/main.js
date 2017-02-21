@@ -334,6 +334,9 @@ Template.footer.helpers({
     if(Session.get("room")){
       return(Session.get("room"));
     }
+    else {
+      return("hidden");
+    }
   }
 })
 
