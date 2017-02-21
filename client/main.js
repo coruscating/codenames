@@ -137,10 +137,12 @@ function generateLocations(){
         realarr[i]["reveal"]="unrevealed";
         realarr[i]["displayname"]=realarr[i]["name"].replace("_"," ");
         realarr[i]["name"]=realarr[i]["name"].replace(" ","_");
-        reallen=(realarr[i]["displayname"].match(/&/g) || []).length;
-        if ((realarr[i]["displayname"].length-reallen*4) >= 12){
+        reallen=(realarr[i]["displayname"].match(/#/g) || []).length;
+        console.log(realarr[i]["displayname"]);
+        console.log((realarr[i]["displayname"].length-reallen*4).toString());
+        if ((realarr[i]["displayname"].length-reallen*4) >= 13){
           realarr[i]["long"]="longer";
-        } else if(realarr[i]["displayname"].length>=10) {
+        } else if((realarr[i]["displayname"].length-reallen*4)>=11) {
           realarr[i]["long"]="long";
         } else{
           realarr[i]["long"]="normal";
@@ -520,21 +522,20 @@ Template.lobby.events({
   'click .btn-start': function () {
       
     var game = getCurrentGame();
-    var location = game.location;
-    var length = game.lengthInMinutes;
-    var localEndTime = moment().add(length, 'minutes');
-    var gameEndTime = TimeSync.serverTime(localEndTime);
-    var arrSpies=[];
 
-
-    //assignRoles(players, location);
+    if(game.state != "inProgress"){
+      var location = game.location;
+      var length = game.lengthInMinutes;
+      var localEndTime = moment().add(length, 'minutes');
+      var gameEndTime = TimeSync.serverTime(localEndTime);
+      Games.update(game._id, {$set: {state: 'inProgress', redendTime: gameEndTime, blueendTime: gameEndTime, paused: false, bluepausedTime: TimeSync.serverTime(moment()), redpausedTime: TimeSync.serverTime(moment())}});
+    }
     Session.set('currentView', 'gameView');
-    Games.update(game._id, {$set: {state: 'inProgress', redendTime: gameEndTime, blueendTime: gameEndTime, paused: false, bluepausedTime: TimeSync.serverTime(moment()), redpausedTime: TimeSync.serverTime(moment())}});
   },
   'click #location2': function(event){
     var game=getCurrentGame();
     var newlocationlist=generateLocations();
-    Games.update(game._id, {$set: {locationlist: newlocationlist}})
+    Games.update(game._id, {$set: {locationlist: newlocationlist, state: "waitingForPlayers"}});
   },
   //'click .selection': function(event){
   //  Session.set(event.currentTarget.id + "_checked", event.currentTarget.checked);
@@ -546,6 +547,8 @@ Template.lobby.events({
   'click .btn-refresh-list': function (event) {
       var game = getCurrentGame();
       var newlocationlist = generateLocations();
+      Games.update(game._id, {$set: {state: "waitingForPlayers"}});
+
       //var newlocation = getRandomLocation(newlocationlist);
       //Games.update(game._id, {$set: {locationlist: newlocationlist, }});
   },
@@ -782,6 +785,14 @@ Template.gameView.events({
   },
   'click .btn-toggle-status': function () {
     $(".game-countdown").toggle();
+  },
+  'click .btn-reset': function () {
+    var game = getCurrentGame();
+    var length = game.lengthInMinutes;
+    var localEndTime = moment().add(length, 'minutes');
+    var gameEndTime = TimeSync.serverTime(localEndTime);
+    Games.update(game._id, {$set: {redendTime: gameEndTime, blueendTime: gameEndTime, paused: false, bluepausedTime: TimeSync.serverTime(moment()), redpausedTime: TimeSync.serverTime(moment())}});
+
   },
   'click .btn-pause': function () {
     var game = getCurrentGame();

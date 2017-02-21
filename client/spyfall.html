@@ -59,13 +59,21 @@
 
 
 <template name="lobby">
-<div style="width:20%;float: left;">
 
-<input type="button" value="New Game" class="btn-refresh-list">
+
+
+
+
+<div style="width:20%;float: left;text-align:left;">
+<br>
+<center><input type="button" value="New Game" class="btn-refresh-list"></center>
+
 <button class="down"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.lengthInMinutes }} minutes&nbsp;&nbsp;
 
 <button class="up"><div style='font-size:1.5em;'>+</div></button>
-<button class="down2"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.totalnum }} codenames&nbsp;&nbsp;<button class="up2"><div style='font-size:1.5em;'>+</div></button>
+<br>
+<button class="down2"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.totalnum }} names&nbsp;&nbsp;<button class="up2"><div style='font-size:1.5em;'>+</div></button>
+<br><br>
 
     {{#each listofwordlists }}
     <input type=checkbox id={{_ name }} name={{_ name }} checked={{ isChecked name }} class=selection><label for={{_ name }}> {{_ label }} ({{_ len }})</label><br>
@@ -93,14 +101,14 @@
 </template>
 
 <template name="gameView">
-  <div style="padding: 5vw 0 5vw 0;">
-<div style="width:20%;float: left;"> <center><h5>
-<div style="width:10vw;float:left;"><a href="#" class="blue {{#if gameFinished }}finished{{/if}} {{#if game.bluepaused }}paused{{/if}}">{{{ bluetimeRemaining }}}</a></div>
+  <div style="padding: 3vw 0 3vw 0;">
+<div style="width:15vw;float: left;"> <center><h5>
+<div style="width:8vw;float:left;"><a href="#" class="blue {{#if gameFinished }}finished{{/if}} {{#if game.bluepaused }}paused{{/if}}">{{{ bluetimeRemaining }}}</a></div>
 
 
 <div><a href="#" class="red {{#if gameFinished }}finished{{/if}} {{#if game.redpaused }}paused{{/if}}">{{{ redtimeRemaining }}}</a></div></h5>
 
-<h5><div style="width:10vw;float:left;" class=blue>{{ bluescore }}/{{ bluetotal }}</div>
+<h5><div style="width:8vw;float:left;" class=blue>{{ bluescore }}/{{ bluetotal }}</div>
 <div class=red>{{ redscore }}/{{ redtotal }}</div>
 </h5>
 </center>
@@ -120,9 +128,12 @@
 <!--
 <h5><span class=blue>Blue: {{ bluescore }}/{{ bluetotal }}</span><br>
 <span class=red>Red: {{ redscore }}/{{ redtotal }}</span></h5><br>-->
+<br>
 <button class="btn-pass">Pass turn</button>
 <br><br>
 <button class="btn-pause">{{ #if pausetext }}un{{/if}}pause</button>
+<br>
+<button class="btn-reset">Reset timers</button>
 </div>
   <div class="status-container">
  
