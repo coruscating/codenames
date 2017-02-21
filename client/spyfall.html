@@ -59,10 +59,7 @@
 
 
 <template name="lobby">
-
-
-
-
+<div style="padding: 3vw 0 3vw 0;">
 
 <div style="width:20%;float: left;text-align:left;">
 <br>
@@ -96,13 +93,13 @@
   <div class="button-container">
     <button class="btn-start">Start Game</button>
     <button class="btn-leave">Back</button>
-  </div>
+  </div></div>
 </div>
 </template>
 
 <template name="gameView">
   <div style="padding: 3vw 0 3vw 0;">
-<div style="width:15vw;float: left;"> <center><h5>
+<div style="width:20%;float: left;"> <center><h5>
 <div style="width:8vw;float:left;"><a href="#" class="blue {{#if gameFinished }}finished{{/if}} {{#if game.bluepaused }}paused{{/if}}">{{{ bluetimeRemaining }}}</a></div>
 
 

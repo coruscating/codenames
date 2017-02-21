@@ -1,6 +1,6 @@
 #!/bin/bash
 
-num=150
+num=173
 
 echo "wordlist_pusheen = [" > wordlist_pusheen.js
 i=1
