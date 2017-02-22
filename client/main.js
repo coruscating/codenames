@@ -449,11 +449,14 @@ Template.lobby.helpers({
   listofwordlists: [
   {name: "wordlist_orig", label: "Original", len: wordlist_orig.length},
   {name: "wordlist_stem", label: "STEM", len: wordlist_stem.length},
-  {name: "wordlist_starwars", label: "Star Wars!", len: wordlist_starwars.length},
-  {name: "wordlist_indianajones", label: "Indiana Jones!", len: wordlist_indianajones.length},
-  {name: "wordlist_boardgames", label: "Board games!", len: wordlist_boardgames.length},
-  {name: "wordlist_pusheen", label: "Pusheen!", len: wordlist_pusheen.length},
-  {name: "wordlist_regex", label: "Regex!", len: wordlist_regex.length}
+  {name: "wordlist_books", label: "Novels", len: wordlist_books.length},
+  {name: "wordlist_films", label: "Films", len: wordlist_films.length},
+  {name: "wordlist_starwars", label: "Star Wars", len: wordlist_starwars.length},
+  {name: "wordlist_indianajones", label: "Indiana Jones", len: wordlist_indianajones.length},
+  {name: "wordlist_harrypotter", label: "Harry Potter", len: wordlist_indianajones.length},
+  {name: "wordlist_boardgames", label: "Board games", len: wordlist_boardgames.length},
+  {name: "wordlist_pusheen", label: "Pusheen", len: wordlist_pusheen.length},
+  {name: "wordlist_regex", label: "Regex", len: wordlist_regex.length}
   ],
   isChecked: function(name){
     if (Session.get(name + "_checked") == true){
@@ -468,7 +471,7 @@ Template.lobby.helpers({
   },
   height: function(){
     var game=getCurrentGame();
-    return parseFloat(15/(game.totalnum/5)).toFixed(1);
+    return parseFloat(35/(game.totalnum/5)).toFixed(1);
   },
   player: function () {
     return getCurrentPlayer();
@@ -631,7 +634,7 @@ Template.gameView.helpers({
   game: getCurrentGame,
   height: function(){
     var game=getCurrentGame();
-    return parseFloat(15/(game.totalnum/5)).toFixed(1);
+    return parseFloat(35/(game.totalnum/5)).toFixed(1);
   },
   pausetext: function(){
     var game=getCurrentGame();

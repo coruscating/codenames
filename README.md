@@ -6,8 +6,6 @@ wordlist_orig is the original ~400 words in the game. Run wordconverter <suffix>
 ./wordconverter boardgames
 
 todo:
-multiple games
 customize number of words for each side
-two line clues instead of smaller font
 online only version
 duplicates?? (two ROOT, possible other words)

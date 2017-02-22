@@ -8,9 +8,9 @@ fi
 
 sort -u $filein -o $filein
 sed 's/\./\&#46;/g' $filein > $filein.tmp
-sed -i 's/{/\&#123;/g' $filein.tmp
-sed -i 's/}/\&#125;/g' $filein.tmp
-
+#sed -i 's/{/\&#123;/g' $filein.tmp
+#sed -i 's/}/\&#125;/g' $filein.tmp
+sed "s/'/\&#39;/g" $filein.tmp > $filein.tmp2
 
 echo "$filein = [" > $fileout
 
@@ -18,7 +18,7 @@ while read -r line
 do
     name=$line
     echo "{name: '$line'}," >> $fileout
-done < $filein.$$
+done < $filein.tmp2
 
 
 sed -i '' '$s/,//' $fileout

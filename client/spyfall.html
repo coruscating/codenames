@@ -62,8 +62,8 @@ Room: <select id="room">
 <div style="padding: 3vw 0 3vw 0;">
 
 <div style="width:20%;float: left;text-align:left;">
-<br>
-<center><input type="button" value="New Game" class="btn-refresh-list"></center>
+
+<input type="button" value="New Game" class="btn-refresh-list"><br>
 
 <button class="down"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.lengthInMinutes }} minutes&nbsp;&nbsp;
 
@@ -77,13 +77,13 @@ Room: <select id="room">
 <div id=slider-{{_ name}} class=sliders></div>
 {{/each}}
 <!-- checked={{isChecked name}} -->
-</div><div>  
+</div><div class="status-container">  
 {{test}}
   <ul class="location-list lobby">
     {{#each game.locationlist }}
 
       <li class="location-unrevealed">
-        {{#if isImage displayname }} <div class="location-name" style="padding: 0;"><img src={{_ displayname }}></div> {{else}} <div class="location-name" style="padding: {{_ height}}vw 0 {{_ height}}vw 0;"> {{{_ displayname}}} </div>{{/if}}
+        {{#if isImage displayname }} <div class="location-name" style="padding: 0;height: {{_ height}}vw;"><img src={{_ displayname }}></div> {{else}} <div class="location-name" style="height: {{_ height}}vw;"> <span style="vertical-align:middle;position: relative; top: 35%;">{{{_ displayname}}}</span></div> {{/if}}
         </li>
     {{/each}}
   </ul>
@@ -144,7 +144,7 @@ Room: <select id="room">
 <ul class="location-list">
     {{#each game.locationlist }}
       <li class="location-{{_ reveal }}" id="location-{{_ name }}">
-        {{#if isImage displayname }}<div class="location-name {{_ long}}" style="padding: 0;"><img src={{_ displayname }}></div> {{else}} <div class="location-name {{_ long}}" style="padding: {{_ height}}vw 0 {{_ height}}vw 0;">{{{_ displayname}}}</div> {{/if}}
+        {{#if isImage displayname }}<div class="location-name" style="padding: 0;height: {{_ height}}vw;"><img src={{_ displayname }}></div> {{else}} <div class="location-name" style="height: {{_ height}}vw;"><span style="vertical-align:middle;position: relative; top: 35%;">{{{_ displayname}}}</span></div> {{/if}}
       </li>
     {{/each}}
   </ul>
@@ -153,7 +153,7 @@ Room: <select id="room">
   <ul class="location-list">
     {{#each game.locationlist }}
 <li class="location-{{_ type }} spymaster-{{_ reveal }}">
-{{#if isImage displayname }}<div class="location-name {{_ long}}" style="padding: 0;"><img src={{_ displayname }}></div> {{else}} <div class="location-name {{_ long}}" style="padding: {{_ height}}vw 0 {{_ height}}vw 0;"> {{{_ displayname}}} </div>{{/if}}
+{{#if isImage displayname }}<div class="location-name" style="padding: 0;height: {{_ height}}vw;"><img src={{_ displayname }}></div> {{else}} <div class="location-name" style="height: {{_ height}}vw;"><span style="vertical-align:middle;position: relative; top: 35%;transform: translateY(-50%);">{{{_ displayname}}}</span></div> {{/if}}
 </li>
     {{/each}}
   </ul>

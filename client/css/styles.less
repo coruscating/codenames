@@ -28,8 +28,8 @@ h5 {
 img {
     height: 7.5vw;
     width: 7.5vw;
-    display: block;
-    margin: auto;
+    margin: 0;
+    padding: 0;
 }
 
 .button-container {
@@ -396,20 +396,21 @@ border-radius: 10px;
     -webkit-column-gap: 4px;
     column-gap: 4px;
     font-size: 1.6vw;
+    /*word-break: break-all;*/
 }
 
 
 
-.location-list.lobby{
+/*.location-list.lobby{
     font-size: 1.8vw;
-}
+}*/
 
 .location-name.long{
-    font-size: smaller;
+    /*font-size: smaller;*/
 }
 
 .location-name.longer{
-    font-size: small;
+    /*font-size: small;*/
 }
 
 .location-list li {
@@ -484,6 +485,11 @@ li.location-assassin {
 .location-list li .location-name {
     line-height: 1.5vw;
     text-align: center;
+        -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+box-sizing: border-box;         /* Opera/IE 8+ */
+position:relative;
+display:inline-block;
 }
 
 .ingame-player-list {
