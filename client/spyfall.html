@@ -5,11 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  <script src="https://use.fontawesome.com/202363b367.js"></script>
   <link href="css/font-awesome.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/normalize.css" type="text/css">
   <link rel="stylesheet" href="css/skeleton.css" type="text/css">
   <link rel="stylesheet" href="css/styles.css" type="text/css">
-  <script src="https://use.fontawesome.com/202363b367.js"></script>
+  
 </head>
 
 <body></body>
@@ -47,6 +48,7 @@ Room: <select id="room">
 <option value=Topaz>Topaz</option>
 <option value=Zircon>Zircon</option>
 </select>
+<br>{{_ occupied}}
 <br><br>
     <div id=spymaster class=join-game></div>
     <div id=operative class=join-game></div>
@@ -175,7 +177,7 @@ Room: <select id="room">
 
 <template name="footer">
   <div class="footer" style="clear:both;">
-    <span class="room-{{room}}"><i class="fa fa-diamond" aria-hidden="true"></i> {{room}}</span>
+    <span class="room-{{room}}"><i class="fa fa-diamond" aria-hidden="true"></i> {{room}}</span> 
     <br>
     <a href="/rules.pdf" target="_blank">Rules</a> &nbsp;&nbsp;&nbsp; <a href="http://suchspy.meteor.com" target="_blank">Spyfall</a>
   </div>

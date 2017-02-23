@@ -6,6 +6,7 @@ wordlist_orig is the original ~400 words in the game. Run wordconverter <suffix>
 ./wordconverter boardgames
 
 todo:
+squares are not aligned when there's long text or mixed text/images
 customize number of words for each side
 online only version
 duplicates?? (two ROOT, possible other words)

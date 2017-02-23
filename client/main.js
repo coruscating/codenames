@@ -307,6 +307,8 @@ function leaveGame () {
   //Session.set("playerID", null);
 }
 
+var occupiedDep = new Tracker.Dependency();
+
 initUserLanguage();
 
 Meteor.setInterval(function () {
@@ -365,6 +367,16 @@ Template.startMenu.helpers({
 
   playername : function(){
     return Session.get('playerName');
+  },
+  occupied : function(){
+    occupiedDep.depend();
+    var game=Games.findOne($("#room").val());
+    if(game){
+      if(game.state=='inProgress'){
+        return("Game in progress");
+      }
+    }
+    return(" ");
   }
 
   
@@ -374,7 +386,9 @@ Template.startMenu.events({
     console.log("hi");
     console.log($("#room").val());
     Session.set("room", $("#room").val());
+    occupiedDep.changed();
   },
+
   'click .join-game': function (event) {
     var game = getCurrentGame();
 
@@ -767,7 +781,7 @@ Template.gameView.events({
               } else {
                 Games.update(game._id, {$set: {bluepausedTime: ptime}});
               }
-              Games.update(game._id, {$set: {statustext: "Red wins!",turn: "red", redpaused: true, bluepaused: true, pausedTime: ptime}});
+              Games.update(game._id, {$set: {state: 'done',statustext: "Red wins!",turn: "red", redpaused: true, bluepaused: true, pausedTime: ptime}});
             }
           } else if (locationlist[i].type=="blue"){
             var score=game.bluescore+1;
@@ -782,14 +796,14 @@ Template.gameView.events({
               } else {
                 Games.update(game._id, {$set: {bluepausedTime: ptime}});
               }
-              Games.update(game._id, {$set: {statustext: "Blue wins!",turn: "blue", redpaused: true, bluepaused: true, pausedTime: ptime}});
+              Games.update(game._id, {$set: {state: 'done',statustext: "Blue wins!",turn: "blue", redpaused: true, bluepaused: true, pausedTime: ptime}});
             }
           } else if(locationlist[i].type=="assassin"){
             locationlist[i].reveal="assassin";
               if (game.turn=="red"){
-                Games.update(game._id, {$set: {statustext: "Blue wins!", turn: "blue", redpaused: true, bluepaused: true, pausedTime: ptime, redpausedTime: ptime}});
+                Games.update(game._id, {$set: {state: 'done',statustext: "Blue wins!", turn: "blue", redpaused: true, bluepaused: true, pausedTime: ptime, redpausedTime: ptime}});
               } else {
-                Games.update(game._id, {$set: {statustext: "Red wins!", turn: "red", redpaused: true, bluepaused: true, pausedTime: ptime, bluepausedTime: ptime}});
+                Games.update(game._id, {$set: {state: 'done',statustext: "Red wins!", turn: "red", redpaused: true, bluepaused: true, pausedTime: ptime, bluepausedTime: ptime}});
               }
           }
            else{
