@@ -146,7 +146,7 @@ Room: <select id="room">
 <ul class="location-list">
     {{#each game.locationlist }}
       <li class="location-{{_ reveal }}" id="location-{{_ name }}">
-        {{#if isImage displayname }}<div class="location-name" style="padding: 0;height: {{_ height}}vw;"><img src={{_ displayname }}></div> {{else}} <div class="location-name" style="height: {{_ height}}vw;"><span style="vertical-align:middle;position: relative; top: 35%;">{{{_ displayname}}}</span></div> {{/if}}
+        {{#if isImage displayname }}<div class="location-name" style="padding: 0;height: {{_ height}}vw;"><img src={{_ displayname }}></div> {{else}} <div class="location-name" style="padding:0;height: {{_ height}}vw;"><span style="vertical-align:middle;position: relative; top: 35%;">{{{_ displayname}}}</span></div> {{/if}}
       </li>
     {{/each}}
   </ul>

@@ -7,11 +7,12 @@ if [ -z $filein ] ; then
 fi
 
 sort -u $filein -o $filein
-sed 's/\./\&#8226;/g' $filein > $filein.tmp
+sed 's/\./\&#9679;/g' $filein > $filein.tmp
 sed 's/{/\&#123;/g' $filein.tmp > $filein.tmp2
 sed 's/}/\&#125;/g' $filein.tmp2 > $filein.tmp
 sed "s/'/\&#39;/g" $filein.tmp > $filein.tmp2
-sed 's/\*/\&#10033;/g' $filein.tmp2 > $filein.tmp
+sed 's/\*/\&#10059;/g' $filein.tmp2 > $filein.tmp
+sed 's/\\/\&#92;/g' $filein.tmp > $filein.tmp2
 
 echo "$filein = [" > $fileout
 
@@ -19,7 +20,7 @@ while read -r line
 do
     name=$line
     echo "{name: '$line'}," >> $fileout
-done < $filein.tmp
+done < $filein.tmp2
 
 
 sed -i '' '$s/,//' $fileout

@@ -390,13 +390,12 @@ Template.startMenu.events({
   },
 
   'click .join-game': function (event) {
+    if(!Session.get("room")){
+        Session.set("room","Amethyst");
+    }
     var game = getCurrentGame();
 
     if (!game){
-        if(!Session.get("room")){
-            Session.set("room","Amethyst");
-        }
-
         var game = generateNewGame(Session.get("room"));
         
         Session.set("gameID", game._id);
