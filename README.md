@@ -3,7 +3,7 @@ Codenames
 
 A web-based implementation of [Codenames](http://github.com). Personal use only, no copyright infringement intended.
 
-[screenshot](screenshot.png)
+![screenshot](screenshot.png)
 
 
 Features
