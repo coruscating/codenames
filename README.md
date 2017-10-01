@@ -1,7 +1,7 @@
 Codenames
 =========
 
-A web-based implementation of [Codenames](http://github.com). Personal use only, no copyright infringement intended.
+A web-based implementation of [Codenames](https://boardgamegeek.com/boardgame/178900/codenames). Personal use only, no copyright infringement intended.
 
 ![screenshot](screenshot.png)
 
