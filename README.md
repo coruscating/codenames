@@ -10,10 +10,10 @@ Features
 --------
 
 - Many custom word lists: STEM, regular expressions, etc.
-- [Pusheens](http://www.pusheen.com/)
+- [Pusheens!](http://www.pusheen.com/)
 
 To-do
 -----
 
 - Fully web-based mode
-- Adjustable 
+- Adjustable frequencies for each word list
