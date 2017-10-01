@@ -1,12 +1,19 @@
-To test locally, just run meteor. To deploy, push to github. On the server (funandgames.xvm.mit.edu currently), git pull to sync and meteor will autonmatically reload
+Codenames
+=========
 
-wordlist_orig is the original ~400 words in the game. Run wordconverter <suffix> to add a custom wordlist to the game. For example,
+A web-based implementation of [Codenames](http://github.com). Personal use only, no copyright infringement intended.
 
-./wordconverter starwars
-./wordconverter boardgames
+[screenshot](screenshot.png)
 
-todo:
-mixed text/images not aligned
-customize number of words for each side
-online only version
-duplicates?? (two ROOT, possible other words)
+
+Features
+--------
+
+- Many custom word lists: STEM, regular expressions, etc.
+- [Pusheens](http://www.pusheen.com/)
+
+To-do
+-----
+
+- Fully web-based mode
+- Adjustable 
