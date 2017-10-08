@@ -1,3 +1,7 @@
+#!/bin/sh
+
+# converts plaintext regex wordlist to proper wordlist
+
 filein="wordlist"_$1
 fileout="wordlist"_$1".js"
 

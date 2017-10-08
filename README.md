@@ -17,3 +17,4 @@ To-do
 
 - Fully web-based mode
 - Adjustable frequencies for each word list
+- Clean up code

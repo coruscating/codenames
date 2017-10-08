@@ -1,3 +1,7 @@
+#!/bin/sh
+
+# converts plaintext wordlist to properly formatted wordlist
+
 filein="wordlist"_$1
 fileout="wordlist"_$1".js"
 

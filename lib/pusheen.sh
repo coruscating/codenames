@@ -1,6 +1,8 @@
 #!/bin/bash
 
-num=416
+# generates pusheen wordlist
+
+num=425
 
 echo "wordlist_pusheen = [" > wordlist_pusheen.js
 i=1
