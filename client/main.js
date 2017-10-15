@@ -6,7 +6,7 @@
 "wordlist_films": {label: "Films", len: wordlist_films.length, num: 0},
 "wordlist_starwars": {label: "Star Wars", len: wordlist_starwars.length, num: 0},
 "wordlist_indianajones": {label: "Indiana Jones", len: wordlist_indianajones.length, num: 0},
-"wordlist_harrypotter": {label: "Harry Potter", len: wordlist_indianajones.length, num: 0},
+"wordlist_harrypotter": {label: "Harry Potter", len: wordlist_harrypotter.length, num: 0},
 "wordlist_boardgames": {label: "Board games", len: wordlist_boardgames.length, num: 0},
 "wordlist_pusheen": {label: "Pusheen", len: wordlist_pusheen.length, num: 0},
 "wordlist_regex": {label: "Regex", len: wordlist_regex.length, num: 0}
@@ -475,7 +475,7 @@ Template.lobby.helpers({
   {name: "wordlist_films", label: "Films", len: wordlist_films.length, num: wordlistlen("wordlist_films")},
   {name: "wordlist_starwars", label: "Star Wars", len: wordlist_starwars.length, num: wordlistlen("wordlist_starwars")},
   {name: "wordlist_indianajones", label: "Indiana Jones", len: wordlist_indianajones.length, num: wordlistlen("wordlist_indianajones")},
-  {name: "wordlist_harrypotter", label: "Harry Potter", len: wordlist_indianajones.length, num: wordlistlen("wordlist_harrypotter")},
+  {name: "wordlist_harrypotter", label: "Harry Potter", len: wordlist_harrypotter.length, num: wordlistlen("wordlist_harrypotter")},
   {name: "wordlist_boardgames", label: "Board games", len: wordlist_boardgames.length, num: wordlistlen("wordlist_boardgames")},
   {name: "wordlist_pusheen", label: "Pusheen", len: wordlist_pusheen.length, num: wordlistlen("wordlist_pusheen")},
   {name: "wordlist_regex", label: "Regex", len: wordlist_regex.length, num: wordlistlen("wordlist_regex")}
