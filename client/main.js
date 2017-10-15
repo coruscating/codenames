@@ -82,7 +82,6 @@ function generateLocations(){
     var arr = [];
     var realarr = [];
     var realarr2 =[];
-    var found;
     var start=Math.floor(Math.random() * (2)); // starting player
     var game=getCurrentGame();
     var locationsarr=[];
@@ -92,41 +91,50 @@ function generateLocations(){
     var arrlen=0;
     var i=0;
     var j=0;
+    var k=0;
+    var flag=0;
 
     if(assassinnum==0){
       assassinnum=1;
     }
-    console.log("gen");
 
     for(i in game.wordlists){
-      console.log(i);
       arrlen=0;
       arr=[];
       while (arrlen < game.wordlists[i].num){
-      var randomnumber=Math.floor(Math.random() * game.wordlists[i].len);
-      //found=false;
-      if(arr.indexOf(randomnumber)==-1){
-        arr.push(randomnumber);
-        arrlen+=1;
+        flag=0;
+        var randomnumber=Math.floor(Math.random() * game.wordlists[i].len);
+        if(arr.indexOf(randomnumber)==-1){
+          for(k in locationsarr){
+            console.log(locationsarr[k]);
+            if(locationsarr[k].name==eval(i + "[" + randomnumber + "].name")){
+              console.log(arr);
+              console.log(randomnumber);
+              console.log(locationsarr);
+              console.log(k);
+              console.log("dupe");
+              flag=1;
+              break;
+            }
+          }
+          if(flag!=1){
+            eval("locationsarr.push(" + i + "[" + randomnumber + "])");
+            arr.push(randomnumber);
+            arrlen+=1;
+          }
+        }
       }
-      /*for(var i=0;i<arr.length;i++){
-        if(arr[i]==randomnumber){
-        found=true;
-        break;
-        }*/
-      //}
-      /*if(!found){
-      arr[arr.length]=randomnumber;
-      }*/
-    }
-    console.log(arr);
-    for (j in arr){
-      console.log("locationsarr.push(" + i + "[" + j + "])");
-      eval("locationsarr.push(" + i + "[arr[" + j + "]])");
-    }
-    }
+  
 
-console.log("done/?");
+    }
+    console.log(locationsarr);
+    // randomize the array
+    var comparer = function(a,b) {
+        return 2 * Math.random() - 1;
+    }
+    locationsarr.sort( comparer );
+
+
     
     // don't let users do something stupid
     /*if(locationsarr.length<totalnum){
@@ -151,12 +159,11 @@ console.log("done/?");
         arrlen+=1;
       }
     }*/
-    console.log(locationsarr);
     var reallen=0;
     for (var i=0;i<locationsarr.length;i++){
         realarr[i]=locationsarr[i];
         realarr[i]["reveal"]="unrevealed";
-        realarr[i]["displayname"]=realarr[i]["name"].replace("_"," ");
+        realarr[i]["displayname"]=realarr[i]["name"].replace(/_/g," ");
         realarr[i]["name"]=realarr[i]["name"].replace(" ","_");
         reallen=(realarr[i]["displayname"].match(/#/g) || []).length;
         if ((realarr[i]["displayname"].length-reallen*4) >= 13){
@@ -556,7 +563,7 @@ Template.lobby.events({
       var game=getCurrentGame();
       var id=event.target.id.split("up")[0];
       var wordlist=game.wordlists;
-      if(wordlist[id].num<game.totalnum){
+      if(wordlist[id].num<game.totalnum && wordlist[id].num<game.wordlists[id].len){
         wordlist[id].num++;
         Games.update(game._id, {$set: {wordlists: wordlist}});
       }

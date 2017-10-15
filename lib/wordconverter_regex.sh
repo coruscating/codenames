@@ -30,3 +30,5 @@ done < $filein.tmp2
 sed -i '' '$s/,//' $fileout
 echo "];" >> $fileout
 
+rm $filein.tmp2
+rm $filein.tmp

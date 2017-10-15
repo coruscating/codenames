@@ -67,11 +67,11 @@ Room: <select id="room">
 
 <input type="button" value="New Game" class="btn-refresh-list"><br>
 
-<button id="down"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.lengthInMinutes }} minutes&nbsp;&nbsp;
+<button id="down"><div style='font-size:1.5em;'>-</div></button>&nbsp;<button id="up"><div style='font-size:1.5em;'>+</div></button>&nbsp;&nbsp;{{ game.lengthInMinutes }} minutes
 
-<button id="up"><div style='font-size:1.5em;'>+</div></button>
+
 <br>
-<button class="down2"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.totalnum }} names&nbsp;&nbsp;<button class="up2"><div style='font-size:1.5em;'>+</div></button>
+<button class="down2"><div style='font-size:1.5em;'>-</div></button>&nbsp;<button class="up2"><div style='font-size:1.5em;'>+</div></button>&nbsp;&nbsp;{{ game.totalnum }} names
 <br><br>
 
     {{#each listofwordlists }}

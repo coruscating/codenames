@@ -64,13 +64,13 @@
 .{9}
 [^ae]*
 [^aeiou]*.[^aeiou]*
+[^aerst]*
 [^hnrst]*
 [^iouy]*
 [^rst]*
 [a-m]*
 [aeiou].*
 [aeiou].*[aeiou]
-[aerst]
 [n-z]*
 [n-z].{4}
 [n-z].{5}
