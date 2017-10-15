@@ -1,3 +1,21 @@
+
+  wordlist_dict={
+  "wordlist_orig": {label: "Original", len: wordlist_orig.length, num: 25},
+  "wordlist_stem":{ label: "STEM", len: wordlist_stem.length, num: 0},
+"wordlist_books": {label: "Novels", len: wordlist_books.length, num: 0},
+"wordlist_films": {label: "Films", len: wordlist_films.length, num: 0},
+"wordlist_starwars": {label: "Star Wars", len: wordlist_starwars.length, num: 0},
+"wordlist_indianajones": {label: "Indiana Jones", len: wordlist_indianajones.length, num: 0},
+"wordlist_harrypotter": {label: "Harry Potter", len: wordlist_indianajones.length, num: 0},
+"wordlist_boardgames": {label: "Board games", len: wordlist_boardgames.length, num: 0},
+"wordlist_pusheen": {label: "Pusheen", len: wordlist_pusheen.length, num: 0},
+"wordlist_regex": {label: "Regex", len: wordlist_regex.length, num: 0}
+  };
+
+
+
+
+
 function initUserLanguage() {
   var language = amplify.store("language");
 
@@ -25,16 +43,7 @@ function setUserLanguage(language) {
   });
 }
 
-function getLanguageList() {
-  var languages = TAPi18n.getLanguages();
-  var languageList = _.map(languages, function(value, key) { return {code: key, languageDetails: value}; });
-  
-  if (languageList.length <= 1){
-    return null;
-  }
-  
-  return languageList;
-}
+
 
 function getCurrentGame(){
   var gameID = Session.get("room");
@@ -42,16 +51,12 @@ function getCurrentGame(){
   return Games.findOne(gameID);
   
 }
+function wordlistlen(name){
+    var game=getCurrentGame();
 
-function getAccessLink(){
-  var game = getCurrentGame();
-
-  if (!game){
-    return;
-  }
-
-  return Meteor.settings.public.url + game.accessCode + "/";
+    return game.wordlists[name].num;
 }
+
 
 
 function getCurrentPlayer(){
@@ -84,22 +89,47 @@ function generateLocations(){
     var totalnum=game.totalnum;
     var firstnum=Math.round((Math.sqrt(totalnum)-2)*3);
     var assassinnum=Math.round(totalnum/25);
+    var arrlen=0;
+    var i=0;
+    var j=0;
 
     if(assassinnum==0){
       assassinnum=1;
     }
+    console.log("gen");
 
-    $(".selection").each(function(){
-      if($(this).is(":checked")){
-        eval("locationsarr=locationsarr.concat(" + this.id + ")");
-        Session.set(this.id + "_checked", true);
-      } else {
-        Session.set(this.id + "_checked", false);
+    for(i in game.wordlists){
+      console.log(i);
+      arrlen=0;
+      arr=[];
+      while (arrlen < game.wordlists[i].num){
+      var randomnumber=Math.floor(Math.random() * game.wordlists[i].len);
+      //found=false;
+      if(arr.indexOf(randomnumber)==-1){
+        arr.push(randomnumber);
+        arrlen+=1;
       }
-    });
+      /*for(var i=0;i<arr.length;i++){
+        if(arr[i]==randomnumber){
+        found=true;
+        break;
+        }*/
+      //}
+      /*if(!found){
+      arr[arr.length]=randomnumber;
+      }*/
+    }
+    console.log(arr);
+    for (j in arr){
+      console.log("locationsarr.push(" + i + "[" + j + "])");
+      eval("locationsarr.push(" + i + "[arr[" + j + "]])");
+    }
+    }
+
+console.log("done/?");
     
     // don't let users do something stupid
-    if(locationsarr.length<totalnum){
+    /*if(locationsarr.length<totalnum){
       locationsarr=wordlist_orig;
     }
     // remove dupes
@@ -120,26 +150,15 @@ function generateLocations(){
         arr.push(randomnumber);
         arrlen+=1;
       }
-      /*for(var i=0;i<arr.length;i++){
-        if(arr[i]==randomnumber){
-        found=true;
-        break;
-        }*/
-      //}
-      /*if(!found){
-      arr[arr.length]=randomnumber;
-      }*/
-    }
-
+    }*/
+    console.log(locationsarr);
     var reallen=0;
-    for (var i=0;i<arr.length;i++){
-        realarr[i]=locationsarr[arr[i]];
+    for (var i=0;i<locationsarr.length;i++){
+        realarr[i]=locationsarr[i];
         realarr[i]["reveal"]="unrevealed";
         realarr[i]["displayname"]=realarr[i]["name"].replace("_"," ");
         realarr[i]["name"]=realarr[i]["name"].replace(" ","_");
         reallen=(realarr[i]["displayname"].match(/#/g) || []).length;
-        console.log(realarr[i]["displayname"]);
-        console.log((realarr[i]["displayname"].length-reallen*4).toString());
         if ((realarr[i]["displayname"].length-reallen*4) >= 13){
           realarr[i]["long"]="longer";
         } else if((realarr[i]["displayname"].length-reallen*4)>=11) {
@@ -207,7 +226,8 @@ function generateNewGame(gameid){
     firstplayer: "red",
     statustext: null,
     redpausedTime: null,
-    bluepausedTime: null
+    bluepausedTime: null,
+    wordlists: wordlist_dict
   };
 
   var gameID = Games.insert(game);
@@ -342,22 +362,9 @@ Template.footer.helpers({
   }
 })
 
-Template.footer.events({
-  'click .btn-set-language': function (event) {
-    var language = $(event.target).data('language');
-    setUserLanguage(language);
-  }
-})
 
-
-//Template.startMenu.rendered = function () {
-
-  //resetUserState();
-
-//};
 
 Template.startMenu.rendered = function(){
-  console.log("hi");
   if(Session.get("room")){
     $("#room").val(Session.get("room"));
   }
@@ -383,8 +390,6 @@ Template.startMenu.helpers({
 });
 Template.startMenu.events({
   'change #room': function (event){
-    console.log("hi");
-    console.log($("#room").val());
     Session.set("room", $("#room").val());
     occupiedDep.changed();
   },
@@ -399,7 +404,9 @@ Template.startMenu.events({
         var game = generateNewGame(Session.get("room"));
         
         Session.set("gameID", game._id);
-
+        /*for(var i=0;i<wordlist_dict.len;i++){
+          Games.update(game._id, {$set: {wordlistlen[]}})
+        }*/
 
         var num = Session.get('locations');
         if(!num){
@@ -459,18 +466,31 @@ Template.lobby.helpers({
   game: function () {
     return getCurrentGame();
   },
-  listofwordlists: [
-  {name: "wordlist_orig", label: "Original", len: wordlist_orig.length},
-  {name: "wordlist_stem", label: "STEM", len: wordlist_stem.length},
-  {name: "wordlist_books", label: "Novels", len: wordlist_books.length},
-  {name: "wordlist_films", label: "Films", len: wordlist_films.length},
-  {name: "wordlist_starwars", label: "Star Wars", len: wordlist_starwars.length},
-  {name: "wordlist_indianajones", label: "Indiana Jones", len: wordlist_indianajones.length},
-  {name: "wordlist_harrypotter", label: "Harry Potter", len: wordlist_indianajones.length},
-  {name: "wordlist_boardgames", label: "Board games", len: wordlist_boardgames.length},
-  {name: "wordlist_pusheen", label: "Pusheen", len: wordlist_pusheen.length},
-  {name: "wordlist_regex", label: "Regex", len: wordlist_regex.length}
-  ],
+
+  listofwordlists: function(){
+    return([
+  {name: "wordlist_orig", label: "Original", len: wordlist_orig.length, num: wordlistlen("wordlist_orig")},
+  {name: "wordlist_stem", label: "STEM", len: wordlist_stem.length, num: wordlistlen("wordlist_stem")},
+  {name: "wordlist_books", label: "Novels", len: wordlist_books.length, num: wordlistlen("wordlist_books")},
+  {name: "wordlist_films", label: "Films", len: wordlist_films.length, num: wordlistlen("wordlist_films")},
+  {name: "wordlist_starwars", label: "Star Wars", len: wordlist_starwars.length, num: wordlistlen("wordlist_starwars")},
+  {name: "wordlist_indianajones", label: "Indiana Jones", len: wordlist_indianajones.length, num: wordlistlen("wordlist_indianajones")},
+  {name: "wordlist_harrypotter", label: "Harry Potter", len: wordlist_indianajones.length, num: wordlistlen("wordlist_harrypotter")},
+  {name: "wordlist_boardgames", label: "Board games", len: wordlist_boardgames.length, num: wordlistlen("wordlist_boardgames")},
+  {name: "wordlist_pusheen", label: "Pusheen", len: wordlist_pusheen.length, num: wordlistlen("wordlist_pusheen")},
+  {name: "wordlist_regex", label: "Regex", len: wordlist_regex.length, num: wordlistlen("wordlist_regex")}
+  ])
+  },
+  /*listofwordlists: function(){
+    var arr=[];
+    for(var list=0; list<wordlist_dict.len; list++){
+      arr.append({name: wordlist_dict[list], label})
+    }
+  },*/
+
+
+
+
   isChecked: function(name){
     if (Session.get(name + "_checked") == true){
       return true;
@@ -479,7 +499,7 @@ Template.lobby.helpers({
     }
   },
   isImage: function(name){
-    console.log(name);
+   
     return name.endsWith(".gif");
   },
   height: function(){
@@ -514,7 +534,7 @@ Template.lobby.helpers({
 });
 
 Template.lobby.events({
-    'click .up': function() {
+    'click #up': function() {
         var game = getCurrentGame();
         var length = game.lengthInMinutes;
         if(length<200){
@@ -523,7 +543,7 @@ Template.lobby.events({
         Session.set('length',length);
         Games.update(game._id, {$set: {lengthInMinutes: length}});
     },
-    'click .down': function() {
+    'click #down': function() {
         var game = getCurrentGame();
         var length = game.lengthInMinutes;
         if(length>0){
@@ -531,6 +551,26 @@ Template.lobby.events({
         }
         Session.set('length',length);
         Games.update(game._id, {$set: {lengthInMinutes: length}});
+    },
+    'click .up': function(){
+      var game=getCurrentGame();
+      var id=event.target.id.split("up")[0];
+      var wordlist=game.wordlists;
+      if(wordlist[id].num<game.totalnum){
+        wordlist[id].num++;
+        Games.update(game._id, {$set: {wordlists: wordlist}});
+      }
+    },
+    'click .down': function(){
+   
+      var game=getCurrentGame();
+      var id=event.target.id.split("down")[0];
+
+      var wordlist=game.wordlists;
+      if(wordlist[id].num>0){
+        wordlist[id].num--;
+        Games.update(game._id, {$set: {wordlists: wordlist}});
+      }
     },
     'click .up2': function() {
         var game = getCurrentGame();
@@ -662,7 +702,7 @@ Template.gameView.helpers({
     return game.redtotal;
   },
   isImage: function(name){
-    console.log(name);
+
     return name.endsWith(".gif");
   },  
   bluetotal: function(){

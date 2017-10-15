@@ -63,19 +63,19 @@ Room: <select id="room">
 <template name="lobby">
 <div style="padding: 3vw 0 3vw 0;">
 
-<div style="width:20%;float: left;text-align:left;">
+<div style="width:25%;float: left;text-align:left;">
 
 <input type="button" value="New Game" class="btn-refresh-list"><br>
 
-<button class="down"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.lengthInMinutes }} minutes&nbsp;&nbsp;
+<button id="down"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.lengthInMinutes }} minutes&nbsp;&nbsp;
 
-<button class="up"><div style='font-size:1.5em;'>+</div></button>
+<button id="up"><div style='font-size:1.5em;'>+</div></button>
 <br>
 <button class="down2"><div style='font-size:1.5em;'>-</div></button>&nbsp;&nbsp;{{ game.totalnum }} names&nbsp;&nbsp;<button class="up2"><div style='font-size:1.5em;'>+</div></button>
 <br><br>
 
     {{#each listofwordlists }}
-    <input type=checkbox id={{_ name }} name={{_ name }} checked={{ isChecked name }} class=selection><label for={{_ name }}> {{_ label }} ({{_ len }})</label><br>
+    <button class="down" id={{_ name }}down ><div style='font-size:1.5em;' id={{_ name }}down2>-</div></button>&nbsp;<button class="up" id={{_ name }}up ><div style='font-size:1.5em;' id={{_ name }}up2>+</div></button>&nbsp;&nbsp;<label for={{_ name }}>{{_ num }} {{_ label }} ({{_ len }})</label><br>
 <div id=slider-{{_ name}} class=sliders></div>
 {{/each}}
 <!-- checked={{isChecked name}} -->
