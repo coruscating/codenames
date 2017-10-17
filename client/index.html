@@ -68,10 +68,9 @@ Room: <select id="room">
 <input type="button" value="New Game" class="btn-refresh-list"><br>
 
 <button id="down"><div style='font-size:1.5em;'>-</div></button>&nbsp;<button id="up"><div style='font-size:1.5em;'>+</div></button>&nbsp;&nbsp;{{ game.lengthInMinutes }} minutes
+<br><br>
 
-
-<br>
-<button class="down2"><div style='font-size:1.5em;'>-</div></button>&nbsp;<button class="up2"><div style='font-size:1.5em;'>+</div></button>&nbsp;&nbsp;{{ game.totalnum }} names
+{{ game.totalnum }} names:
 <br><br>
 
     {{#each listofwordlists }}
@@ -85,8 +84,13 @@ Room: <select id="room">
     {{#each game.locationlist }}
 
       <li class="location-unrevealed">
-        {{#if isImage displayname }} <div class="location-name" style="padding: 0;height: {{_ height}}vw;"><img src={{_ displayname }}></div> {{else}} <div class="location-name" style="height: {{_ height}}vw;"> <span style="vertical-align:middle;position: relative; top: 35%;">{{{_ displayname}}}</span></div> {{/if}}
-        </li>
+        {{#if isImage displayname }} <div class="location-name" style="padding: 0;height: {{_ height}}vw;"><img src={{_ displayname }}></div>
+        {{else}}
+          {{#if isSymbol displayname }}
+          <div class="location-name" style="padding: 0;height: {{_ height}}vw;"><span style="vertical-align:middle;position: relative; top: 35%;font-size: 180%;">{{{_ displayname}}}</span></div>
+          {{else}} <div class="location-name" style="height: {{_ height}}vw;"> <span style="vertical-align:middle;position: relative; top: 35%;">{{{_ displayname}}}</span></div> {{/if}}
+        {{/if}}
+      </li>
     {{/each}}
   </ul>
 
@@ -146,7 +150,12 @@ Room: <select id="room">
 <ul class="location-list">
     {{#each game.locationlist }}
       <li class="location-{{_ reveal }}" id="location-{{_ name }}">
-        {{#if isImage displayname }}<div class="location-name" style="padding: 0;height: {{_ height}}vw;"><img src={{_ displayname }}></div> {{else}} <div class="location-name" style="padding:0;height: {{_ height}}vw;"><span style="vertical-align:middle;position: relative; top: 35%;">{{{_ displayname}}}</span></div> {{/if}}
+        {{#if isImage displayname }} <div class="location-name" style="padding: 0;height: {{_ height}}vw;"><img src={{_ displayname }}></div>
+        {{else}}
+          {{#if isSymbol displayname }}
+          <div class="location-name" style="padding: 0;height: {{_ height}}vw;"><span style="vertical-align:middle;position: relative; top: 35%;font-size:180%;">{{{_ displayname}}}</span></div>
+          {{else}} <div class="location-name" style="height: {{_ height}}vw;"> <span style="vertical-align:middle;position: relative; top: 35%;">{{{_ displayname}}}</span></div> {{/if}}
+        {{/if}}
       </li>
     {{/each}}
   </ul>
@@ -155,7 +164,12 @@ Room: <select id="room">
   <ul class="location-list">
     {{#each game.locationlist }}
 <li class="location-{{_ type }} spymaster-{{_ reveal }}">
-{{#if isImage displayname }}<div class="location-name" style="padding: 0;height: {{_ height}}vw;"><img src={{_ displayname }}></div> {{else}} <div class="location-name" style="padding:0;height: {{_ height}}vw;"><span style="vertical-align:middle;position: relative; top: 35%;transform: translateY(-50%);">{{{_ displayname}}}</span></div> {{/if}}
+        {{#if isImage displayname }} <div class="location-name" style="padding: 0;height: {{_ height}}vw;"><img src={{_ displayname }}></div>
+        {{else}}
+          {{#if isSymbol displayname }}
+          <div class="location-name" style="padding: 0;height: {{_ height}}vw;"><span style="vertical-align:middle;position: relative; top: 35%;font-size:180%;">{{{_ displayname}}}</span></div>
+          {{else}} <div class="location-name" style="height: {{_ height}}vw;"> <span style="vertical-align:middle;position: relative; top: 35%;">{{{_ displayname}}}</span></div> {{/if}}
+        {{/if}}
 </li>
     {{/each}}
   </ul>
@@ -179,6 +193,6 @@ Room: <select id="room">
   <div class="footer" style="clear:both;">
     <span class="room-{{room}}"><i class="fa fa-diamond" aria-hidden="true"></i> {{room}}</span> 
     <br>
-    <a href="/rules.pdf" target="_blank">Rules</a> &nbsp;&nbsp;&nbsp; <a href="http://suchspy.meteor.com" target="_blank">Spyfall</a>
+    <a href="/rules.pdf" target="_blank">Rules</a>
   </div>
 </template>

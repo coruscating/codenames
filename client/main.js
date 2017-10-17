@@ -9,7 +9,8 @@
 "wordlist_harrypotter": {label: "Harry Potter", len: wordlist_harrypotter.length, num: 0},
 "wordlist_boardgames": {label: "Board games", len: wordlist_boardgames.length, num: 0},
 "wordlist_pusheen": {label: "Pusheen", len: wordlist_pusheen.length, num: 0},
-"wordlist_regex": {label: "Regex", len: wordlist_regex.length, num: 0}
+"wordlist_regex": {label: "Regex", len: wordlist_regex.length, num: 0},
+"wordlist_symbols": {label: "Symbols", len: wordlist_symbols.length, num:0}
   };
 
 
@@ -106,13 +107,7 @@ function generateLocations(){
         var randomnumber=Math.floor(Math.random() * game.wordlists[i].len);
         if(arr.indexOf(randomnumber)==-1){
           for(k in locationsarr){
-            console.log(locationsarr[k]);
             if(locationsarr[k].name==eval(i + "[" + randomnumber + "].name")){
-              console.log(arr);
-              console.log(randomnumber);
-              console.log(locationsarr);
-              console.log(k);
-              console.log("dupe");
               flag=1;
               break;
             }
@@ -127,7 +122,6 @@ function generateLocations(){
   
 
     }
-    console.log(locationsarr);
     // randomize the array
     var comparer = function(a,b) {
         return 2 * Math.random() - 1;
@@ -485,7 +479,8 @@ Template.lobby.helpers({
   {name: "wordlist_harrypotter", label: "Harry Potter", len: wordlist_harrypotter.length, num: wordlistlen("wordlist_harrypotter")},
   {name: "wordlist_boardgames", label: "Board games", len: wordlist_boardgames.length, num: wordlistlen("wordlist_boardgames")},
   {name: "wordlist_pusheen", label: "Pusheen", len: wordlist_pusheen.length, num: wordlistlen("wordlist_pusheen")},
-  {name: "wordlist_regex", label: "Regex", len: wordlist_regex.length, num: wordlistlen("wordlist_regex")}
+  {name: "wordlist_regex", label: "Regex", len: wordlist_regex.length, num: wordlistlen("wordlist_regex")},
+  {name: "wordlist_symbols", label: "Symbols", len: wordlist_symbols.length, num: wordlistlen("wordlist_symbols")}
   ])
   },
   /*listofwordlists: function(){
@@ -506,8 +501,14 @@ Template.lobby.helpers({
     }
   },
   isImage: function(name){
-   
     return name.endsWith(".gif");
+  },
+  isSymbol: function(name){
+    if(name.match(/^\&.{7};$/)){
+      return true;
+    } else {
+      return false;
+    }
   },
   height: function(){
     var game=getCurrentGame();
@@ -563,20 +564,32 @@ Template.lobby.events({
       var game=getCurrentGame();
       var id=event.target.id.split("up")[0];
       var wordlist=game.wordlists;
-      if(wordlist[id].num<game.totalnum && wordlist[id].num<game.wordlists[id].len){
+      var i;
+      var total=0;
+      if(wordlist[id].num<game.wordlists[id].len){
         wordlist[id].num++;
-        Games.update(game._id, {$set: {wordlists: wordlist}});
+        for (i in wordlist){
+          total+=wordlist[i].num;
+        }
+        Session.set('totalnum',total);
+        Games.update(game._id, {$set: {wordlists: wordlist, totalnum: total}});
+        generateLocations();
       }
     },
     'click .down': function(){
-   
       var game=getCurrentGame();
       var id=event.target.id.split("down")[0];
-
+      var i=0;
+      var total=0;
       var wordlist=game.wordlists;
       if(wordlist[id].num>0){
         wordlist[id].num--;
-        Games.update(game._id, {$set: {wordlists: wordlist}});
+        for (i in wordlist){
+          total+=wordlist[i].num;
+        }
+        Session.set('totalnum',total);
+        Games.update(game._id, {$set: {wordlists: wordlist,totalnum: total}});
+        generateLocations();
       }
     },
     'click .up2': function() {
@@ -709,9 +722,15 @@ Template.gameView.helpers({
     return game.redtotal;
   },
   isImage: function(name){
-
     return name.endsWith(".gif");
   },  
+  isSymbol: function(name){
+    if(name.match(/^\&.{7};$/)){
+      return true;
+    } else {
+      return false;
+    }
+  },
   bluetotal: function(){
     var game=getCurrentGame();
     return game.bluetotal;
