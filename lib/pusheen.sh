@@ -2,7 +2,7 @@
 
 # generates pusheen wordlist
 
-num=425
+num=426
 
 echo "wordlist_pusheen = [" > wordlist_pusheen.js
 i=1

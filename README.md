@@ -14,7 +14,7 @@ What's new
 Features
 --------
 
-- Many custom word lists: STEM, regular expressions, etc.
+- Many custom word lists: STEM, regular expressions, ISO symbols, etc.
 - [Pusheens!](http://www.pusheen.com/)
 - Chess timer
 

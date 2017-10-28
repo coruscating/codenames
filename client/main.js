@@ -9,6 +9,7 @@
 "wordlist_harrypotter": {label: "Harry Potter", len: wordlist_harrypotter.length, num: 0},
 "wordlist_boardgames": {label: "Board games", len: wordlist_boardgames.length, num: 0},
 "wordlist_pusheen": {label: "Pusheen", len: wordlist_pusheen.length, num: 0},
+"wordlist_halloween": {label: "Halloween", len: wordlist_halloween.length, num: 0},
 "wordlist_regex": {label: "Regex", len: wordlist_regex.length, num: 0},
 "wordlist_symbols": {label: "Symbols", len: wordlist_symbols.length, num:0}
   };
@@ -479,6 +480,7 @@ Template.lobby.helpers({
   {name: "wordlist_harrypotter", label: "Harry Potter", len: wordlist_harrypotter.length, num: wordlistlen("wordlist_harrypotter")},
   {name: "wordlist_boardgames", label: "Board games", len: wordlist_boardgames.length, num: wordlistlen("wordlist_boardgames")},
   {name: "wordlist_pusheen", label: "Pusheen", len: wordlist_pusheen.length, num: wordlistlen("wordlist_pusheen")},
+  {name: "wordlist_halloween", label: "Halloween", len: wordlist_pusheen.length, num: wordlistlen("wordlist_halloween")},
   {name: "wordlist_regex", label: "Regex", len: wordlist_regex.length, num: wordlistlen("wordlist_regex")},
   {name: "wordlist_symbols", label: "Symbols", len: wordlist_symbols.length, num: wordlistlen("wordlist_symbols")}
   ])
