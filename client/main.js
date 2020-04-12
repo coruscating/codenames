@@ -1,23 +1,26 @@
 
-  wordlist_dict={
+ 
+// add new lists here!
+
+wordlist_dict={
   "wordlist_orig": {label: "Original", len: wordlist_orig.length, num: 25},
   "wordlist_stem":{ label: "STEM", len: wordlist_stem.length, num: 0},
-"wordlist_books": {label: "Novels", len: wordlist_books.length, num: 0},
-"wordlist_films": {label: "Films", len: wordlist_films.length, num: 0},
-"wordlist_starwars": {label: "Star Wars", len: wordlist_starwars.length, num: 0},
-"wordlist_indianajones": {label: "Indiana Jones", len: wordlist_indianajones.length, num: 0},
-"wordlist_harrypotter": {label: "Harry Potter", len: wordlist_harrypotter.length, num: 0},
-"wordlist_gerald": {label: "Gerald", len: wordlist_gerald.length, num: 0},
-"wordlist_boardgames": {label: "Board games", len: wordlist_boardgames.length, num: 0},
-"wordlist_pusheen": {label: "Pusheen", len: wordlist_pusheen.length, num: 0},
-"wordlist_halloween": {label: "Halloween", len: wordlist_halloween.length, num: 0},
-"wordlist_regex": {label: "Regex", len: wordlist_regex.length, num: 0},
-"wordlist_symbols": {label: "Symbols", len: wordlist_symbols.length, num:0},
-"wordlist_bgg": {label: "BGG", len: wordlist_bgg.length, num:0},
-"wordlist_undercover": {label: "undercover", len: wordlist_undercover.length, num:0},
-"wordlist_duet": {label: "duet", len: wordlist_duet.length, num:0}
+  "wordlist_books": {label: "Novels", len: wordlist_books.length, num: 0},
+  "wordlist_films": {label: "Films", len: wordlist_films.length, num: 0},
+  "wordlist_starwars": {label: "Star Wars", len: wordlist_starwars.length, num: 0},
+  "wordlist_indianajones": {label: "Indiana Jones", len: wordlist_indianajones.length, num: 0},
+  "wordlist_harrypotter": {label: "Harry Potter", len: wordlist_harrypotter.length, num: 0},
+  "wordlist_gerald": {label: "Gerald", len: wordlist_gerald.length, num: 0},
+  "wordlist_boardgames": {label: "Board games", len: wordlist_boardgames.length, num: 0},
+  "wordlist_pusheen": {label: "Pusheen", len: wordlist_pusheen.length, num: 0},
+  "wordlist_halloween": {label: "Halloween", len: wordlist_halloween.length, num: 0},
+  "wordlist_regex": {label: "Regex", len: wordlist_regex.length, num: 0},
+  "wordlist_symbols": {label: "Symbols", len: wordlist_symbols.length, num:0},
+  "wordlist_bgg": {label: "BGG", len: wordlist_bgg.length, num:0},
+  "wordlist_undercover": {label: "undercover", len: wordlist_undercover.length, num:0},
+  "wordlist_duet": {label: "duet", len: wordlist_duet.length, num:0},
+  "wordlist_emoji": {label: "emoji", len: wordlist_duet.length, num:0}
   };
-
 
 
 
@@ -477,18 +480,20 @@ Template.lobby.helpers({
     return([
   {name: "wordlist_orig", label: "Original", len: wordlist_orig.length, num: wordlistlen("wordlist_orig")},
   {name: "wordlist_stem", label: "STEM", len: wordlist_stem.length, num: wordlistlen("wordlist_stem")},
-  {name: "wordlist_books", label: "Novels", len: wordlist_books.length, num: wordlistlen("wordlist_books")},
+  {name: "wordlist_books", label: "Books", len: wordlist_books.length, num: wordlistlen("wordlist_books")},
   {name: "wordlist_films", label: "Films", len: wordlist_films.length, num: wordlistlen("wordlist_films")},
   {name: "wordlist_starwars", label: "Star Wars", len: wordlist_starwars.length, num: wordlistlen("wordlist_starwars")},
   {name: "wordlist_indianajones", label: "Indiana Jones", len: wordlist_indianajones.length, num: wordlistlen("wordlist_indianajones")},
   {name: "wordlist_harrypotter", label: "Harry Potter", len: wordlist_harrypotter.length, num: wordlistlen("wordlist_harrypotter")},
-  {name: "wordlist_boardgames", label: "Board games", len: wordlist_boardgames.length, num: wordlistlen("wordlist_boardgames")},
+  {name: "wordlist_boardgames", label: "Board Games", len: wordlist_boardgames.length, num: wordlistlen("wordlist_boardgames")},
   {name: "wordlist_pusheen", label: "Pusheen", len: wordlist_pusheen.length, num: wordlistlen("wordlist_pusheen")},
   {name: "wordlist_halloween", label: "Halloween", len: wordlist_halloween.length, num: wordlistlen("wordlist_halloween")},
   {name: "wordlist_regex", label: "Regex", len: wordlist_regex.length, num: wordlistlen("wordlist_regex")},
   {name: "wordlist_symbols", label: "Symbols", len: wordlist_symbols.length, num: wordlistlen("wordlist_symbols")},
   {name: "wordlist_duet", label: "Duet", len: wordlist_duet.length, num: wordlistlen("wordlist_duet")},
-  {name: "wordlist_undercover", label: "Undercover", len: wordlist_undercover.length, num: wordlistlen("wordlist_undercover")}
+  {name: "wordlist_undercover", label: "Undercover", len: wordlist_undercover.length, num: wordlistlen("wordlist_undercover")},
+  {name: "wordlist_emoji", label: "Emoji", len: wordlist_emoji.length, num: wordlistlen("wordlist_emoji")}
+
   ])
   },
   /*listofwordlists: function(){
