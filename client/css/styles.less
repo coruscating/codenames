@@ -405,7 +405,7 @@ border-radius: 10px;
     -webkit-column-gap: 4px;
     column-gap: 4px;
     font-size: 1.6vw;
-    word-break: break-all;
+    /*word-break: break-all;*/
 }
 
 
@@ -437,6 +437,35 @@ border-radius: 10px;
     vertical-align: middle;
 
 }
+
+.location-list li .location-name {
+    text-align: center;
+-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+box-sizing: border-box;         /* Opera/IE 8+ */
+position:relative;
+padding: 0;
+width:100%;
+height:100%;
+}
+
+.location-inner {
+/*position:absolute;
+left: 30%;
+top:40%;*/
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.location-list li .location-name img {
+    height: 100%;
+    width: auto;
+}
+
+
 
 li.spymaster-red {
     background:url(/diag.png);
@@ -491,15 +520,6 @@ li.location-assassin {
 
 
 
-.location-list li .location-name {
-    line-height: 1.5vw;
-    text-align: center;
-        -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
--moz-box-sizing: border-box;    /* Firefox, other Gecko */
-box-sizing: border-box;         /* Opera/IE 8+ */
-position:relative;
-display:inline-block;
-}
 
 .ingame-player-list {
     overflow: hidden;
@@ -535,6 +555,8 @@ display:inline-block;
     top: -2px;
     font-size: 8px;
 }
+
+
 
 .player-reference {
     margin-bottom: 20px;

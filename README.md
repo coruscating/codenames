@@ -14,6 +14,7 @@ What's new
 Features
 --------
 
+- The original word list, Duet, and Undercover
 - Many custom word lists: STEM, regular expressions, ISO symbols, etc.
 - [Pusheens!](http://www.pusheen.com/)
 - Chess timer
@@ -22,5 +23,6 @@ Features
 To-do
 -----
 
-- Fully web-based mode
-- Clean up code
+- Don't let all of a category be one color
+- Show time since room active
+- Fully web-based mode with chat
