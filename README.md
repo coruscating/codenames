@@ -10,7 +10,7 @@ Features
 --------
 
 - The original word list, Duet, and Undercover
-- Many custom word lists: STEM, regular expressions, ISO symbols, etc.
+- Many custom word lists: STEM, regular expressions, ISO symbols, emojis, etc.
 - [Pusheens!](http://www.pusheen.com/)
 - Customizable number of words from any subset of word lists
 - Chess timer

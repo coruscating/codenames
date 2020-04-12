@@ -490,10 +490,10 @@ Template.lobby.helpers({
   {name: "wordlist_halloween", label: "Halloween", len: wordlist_halloween.length, num: wordlistlen("wordlist_halloween")},
   {name: "wordlist_regex", label: "Regex", len: wordlist_regex.length, num: wordlistlen("wordlist_regex")},
   {name: "wordlist_symbols", label: "Symbols", len: wordlist_symbols.length, num: wordlistlen("wordlist_symbols")},
+  {name: "wordlist_bgg", label: "BGG", len: wordlist_bgg.length, num: wordlistlen("wordlist_bgg")},
   {name: "wordlist_duet", label: "Duet", len: wordlist_duet.length, num: wordlistlen("wordlist_duet")},
   {name: "wordlist_undercover", label: "Undercover", len: wordlist_undercover.length, num: wordlistlen("wordlist_undercover")},
   {name: "wordlist_emoji", label: "Emoji", len: wordlist_emoji.length, num: wordlistlen("wordlist_emoji")}
-
   ])
   },
   /*listofwordlists: function(){
