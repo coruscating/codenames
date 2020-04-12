@@ -6,17 +6,13 @@ A web-based implementation of [Codenames](https://boardgamegeek.com/boardgame/17
 ![screenshot](screenshot.png)
 
 
-What's new
-----------
-- Adjustable frequencies for each word list
-
-
 Features
 --------
 
 - The original word list, Duet, and Undercover
 - Many custom word lists: STEM, regular expressions, ISO symbols, etc.
 - [Pusheens!](http://www.pusheen.com/)
+- Customizable number of words from any subset of word lists
 - Chess timer
 
 
